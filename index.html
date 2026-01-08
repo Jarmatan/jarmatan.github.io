@@ -2,15 +2,15 @@
 <html lang="es-ES">
 <head>
   <meta charset="utf-8">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Contacto - La Venganza de Mercurio</title>
+  <title>Comunidad – La Venganza de Mercurio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
   <style>
-    /* Fondo con portada */
     body {
-      font-family: 'Georgia', serif;
-      line-height: 1.6;
-      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
       margin: 0;
       padding: 0;
       background: url('portadaWEB.jpg') no-repeat center center fixed;
@@ -18,32 +18,41 @@
       color: #111;
     }
 
-    /* Contenedores de texto con fondo gris claro */
     .bloque {
       background-color: rgba(240,240,240,0.85);
       margin: 2em auto;
-      padding: 1.5em;
+      padding: 0.6em 1em 0.6em 1em; /* padding-top aumentado a 0.6em */
       border-radius: 10px;
       max-width: 600px;
       text-align: justify;
+      font-size: 18px;
+      line-height: 1.7;
+      font-family: Georgia, serif;
     }
 
-    /* Enlace centrado dentro del bloque */
+    /* Quitar márgenes de todos los párrafos dentro del bloque */
+    .bloque p {
+      margin: 0;
+      padding: 0;
+    }
+
     .enlace {
       text-align: center;
-      display: block;
-      word-wrap: break-word;
-      margin-top: 1em;
       font-weight: bold;
+      margin-top: 0.4em;  /* pequeño espacio entre texto y enlace */
+      word-break: break-word;
     }
 
-    /* QR dentro de bloque semitransparente, responsivo */
     .qr-bloque {
       background-color: rgba(240,240,240,0.85);
-      margin: 2em auto;
+      margin: 1.5em auto;
       padding: 1em;
       border-radius: 10px;
       max-width: 300px;
+      font-size: 18px;
+      line-height: 1.7;
+      font-family: Georgia, serif;
+      text-align: center;
     }
 
     .qr-bloque img {
@@ -51,13 +60,66 @@
       height: auto;
       display: block;
       margin: 0 auto;
-      border: 0;
+    }
+
+    /* BOTÓN DONACIONES */
+    .donaciones-btn {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+
+    .donaciones-btn a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 190px;
+      height: 52px;
+
+      font-family: Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #111;
+      text-align: center;
+
+      background: linear-gradient(to bottom, #f8f8f8, #dddddd);
+      border: 1px solid #999;
+      border-radius: 10px;
+
+      font-weight: bold;
+      text-decoration: none;
+
+      box-shadow:
+        -2px 2px 2px #999,
+        -4px 6px 12px rgba(0,0,0,0.35);
+
+      transition: all 0.15s ease;
+    }
+
+    .donaciones-btn a:hover {
+      background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    }
+
+    .donaciones-btn a:active {
+      transform: translate(3px, 3px);
+      box-shadow:
+        0 0 0 #999,
+        -2px 2px 6px rgba(0,0,0,0.25);
     }
   </style>
 </head>
+
 <body>
+
+  <div class="donaciones-btn">
+    <a href="donaciones.html">Apoyar el proyecto</a>
+  </div>
+
   <div class="bloque">
-    <p>Para acceder al canal de Telegram de <strong>La Venganza de Mercurio</strong>, puede usar el enlace siguiente o escanear el código QR de abajo:</p>
+    <p>Para acceder al canal de Telegram de <strong>La Venganza de Mercurio</strong>,
+      puede usar el enlace siguiente o escanear el código QR:</p>
 
     <p class="enlace">
       <a href="https://t.me/+QNcmEJ3c6705ZTk0">
@@ -67,9 +129,8 @@
   </div>
 
   <div class="qr-bloque">
-    <img src="P%C3%A1gina%20de%20contacto%20con%20los%20lectores_html_a14256c1dd15dc1f.gif"
-         alt="QR de contacto">
+    <img src="QR del canal de Telegram.gif" alt="QR del canal de Telegram">
   </div>
+
 </body>
 </html>
-

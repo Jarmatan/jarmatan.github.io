@@ -21,7 +21,7 @@
     .bloque {
       background-color: rgba(240,240,240,0.85);
       margin: 2em auto;
-      padding: 0.6em 1em 0.6em 1em; /* un renglón arriba y abajo */
+      padding: 0.6em 1em 0.6em 1em;
       border-radius: 10px;
       max-width: 600px;
       text-align: justify;
@@ -36,7 +36,7 @@
 
     .qr-bloque {
       background-color: rgba(240,240,240,0.85);
-      margin: 1.5em auto;
+      margin: 1em auto; /* antes 1.5em, ahora menos */
       padding: 1em;
       border-radius: 10px;
       max-width: 300px;
@@ -111,22 +111,21 @@
     <p>Si deseas apoyar este proyecto y a su autor, puedes hacerlo mediante donaciones. Preferimos Bitcoin Cash (BCH), pero también aceptamos PayPal y transferencia bancaria. A continuación tienes los datos.</p>
   </div>
 
-<!-- Código QR BCH -->
-<div class="qr-bloque">
-  <!-- Título encima del QR -->
-  <div style="font-size: 18px; color: #111; font-weight: bold; margin-bottom: 0.7em;">
-    Dirección de Bitcoin Cash
+  <!-- Código QR BCH -->
+  <div class="qr-bloque">
+    <!-- Título encima del QR -->
+    <div style="font-size: 18px; color: #111; font-weight: bold; margin: 0 0 0.7em 0;">
+      Dirección de Bitcoin Cash
+    </div>
+
+    <!-- QR -->
+    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+
+    <!-- Dirección en texto -->
+    <div style="font-size: 18px; color: #111; margin-top: 0.7em; word-break: break-word;">
+      bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5
+    </div>
   </div>
-
-  <!-- QR -->
-  <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
-
-  <!-- Dirección en texto -->
-  <div style="font-size: 18px; color: #111; margin-top: 0.7em; word-break: break-word;">
-    bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5
-  </div>
-</div>
-
 
   <!-- Código QR PayPal -->
   <div class="qr-bloque">

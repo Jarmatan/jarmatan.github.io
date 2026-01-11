@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+  <meta charset="utf-8">
+  <title>Donaciones – La Venganza de Mercurio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <style>
+    body {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+      background: url('portadaWEB.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #111;
+    }
+
+    .bloque {
+      background-color: rgba(240,240,240,0.85);
+      margin: 2em auto;
+      padding: 0.6em 1em;
+      border-radius: 10px;
+      max-width: 600px;
+      text-align: justify;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .bloque p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .qr-bloque {
+      background-color: rgba(240,240,240,0.85);
+      margin: 1em auto;
+      padding: 1em;
+      border-radius: 10px;
+      max-width: 300px;
+      font-size: 18px;
+      line-height: 1.7;
+      text-align: center;
+      font-family: Georgia, serif;
+    }
+
+    .qr-bloque img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .comunidad-btn {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+
+    .comunidad-btn a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 190px;
+      height: 52px;
+      font-family: Georgia, serif;
+      font-size: 18px;
+      color: #111;
+      text-align: center;
+      background: linear-gradient(to bottom, #f8f8f8, #dddddd);
+      border: 1px solid #999;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: -2px 2px 2px #999, -4px 6px 12px rgba(0,0,0,0.35);
+      transition: all 0.15s ease;
+    }
+
+    .comunidad-btn a:hover {
+      background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    }
+
+    .comunidad-btn a:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 #999, -2px 2px 6px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="comunidad-btn">
+    <a href="index.html">Comunidad</a>
+  </div>
+
+  <div class="bloque">
+    <p>
+      Si deseas apoyar este proyecto y a su autor, puedes hacerlo mediante donaciones en
+      <strong>Bitcoin Cash (BCH)</strong>. Esta página pretende también servir como una
+      breve introducción práctica al uso de esta criptodivisa.
+    </p>
+  </div>
+
+  <!-- Código QR BCH -->
+  <div class="qr-bloque">
+    <div style="font-size: 18px; color: #111; font-weight: bold; margin: 0 0 0.7em 0;">
+      Dirección de Bitcoin Cash
+    </div>
+
+    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+
+    <div style="font-size: 18px; color: #111; margin-top: 0.7em; word-break: break-word;">
+      bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5
+    </div>
+  </div>
+
+</body>
+</html>
+

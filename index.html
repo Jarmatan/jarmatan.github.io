@@ -56,4 +56,74 @@ body {
 
 .qr-boton:active {
   transform: translateY(6px);
-  box-shadow
+  box-shadow:
+    0 2px 0 #bcbcbc,
+    0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* BOTONES CLÁSICOS */
+
+.boton-clasico {
+  display: block;
+  margin: 1.5em auto;
+  max-width: 260px;
+  padding: 14px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  color: #111;
+  background: linear-gradient(to bottom, #f8f8f8, #dddddd);
+  border-radius: 12px;
+  border: 1px solid #999;
+
+  box-shadow:
+    0 4px 0 #bbb,
+    0 8px 18px rgba(0,0,0,0.35);
+
+  transition: all 0.12s ease;
+}
+
+.boton-clasico:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 1px 0 #bbb,
+    0 3px 8px rgba(0,0,0,0.25);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bloque">
+<p>
+Para acceder al <strong>canal oficial de Telegram</strong>,
+pulse directamente sobre el código siguiente:
+</p>
+</div>
+
+<a class="qr-boton" href="https://t.me/+QNcmEJ3c6705ZTk0">
+  <img src="qrdelcanaldetelegram.gif" alt="Acceso al canal de Telegram">
+</a>
+
+<div class="bloque">
+<p>
+Si desea participar en el <strong>grupo de debate entre lectores</strong>,
+pulse sobre el siguiente código:
+</p>
+</div>
+
+<a class="qr-boton" href="https://t.me/+0D5-J6ZGMMdlOGJk">
+  <img src="qrdelgrupodedebatedetelegram.gif" alt="Acceso al grupo de debate">
+</a>
+
+<a class="boton-clasico" href="compra-bch.html">
+Comprar el libro con BCH
+</a>
+
+<a class="boton-clasico" href="donaciones.html">
+Apoyar el proyecto
+</a>
+
+</body>
+</html>

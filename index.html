@@ -17,8 +17,21 @@ body {
   color: #111;
 }
 
-/* BLOQUES DE TEXTO */
+/* TÍTULO PRINCIPAL VISTOSO */
+.titulo-principal {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 2em auto 1em auto;
+  color: #fff;
+  text-shadow:
+    2px 2px 4px rgba(0,0,0,0.7),
+    0 0 8px rgba(255,255,255,0.4),
+    0 0 12px rgba(255,255,255,0.2);
+}
 
+/* BLOQUES DE TEXTO */
 .bloque {
   background-color: rgba(240,240,240,0.88);
   margin: 2em auto 1em auto;
@@ -28,8 +41,9 @@ body {
   text-align: justify;
 }
 
-/* QR COMO BOTÓN */
+/* BOTONES ESTILO 3D CON SOMBRA VISIBLE */
 
+/* QR COMO BOTÓN */
 .qr-boton {
   display: block;
   margin: 1em auto 2em auto;
@@ -40,12 +54,13 @@ body {
   border: 1px solid #aaa;
   text-decoration: none;
 
-  /* Sombras más realistas */
+  /* Sombra clara y visible */
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.15),
-    0 6px 12px rgba(0,0,0,0.25);
+    6px 6px 10px rgba(0,0,0,0.45),   /* sombra principal visible */
+    0 0 8px rgba(0,0,0,0.25),         /* difusa alrededor */
+    inset 0 1px 0 rgba(255,255,255,0.3); /* borde iluminado superior */
 
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
 }
 
 .qr-boton img {
@@ -56,14 +71,14 @@ body {
 }
 
 .qr-boton:active {
-  transform: translateY(4px);
+  transform: translate(4px, 4px);  /* baja hacia abajo y derecha */
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.12),
-    0 3px 6px rgba(0,0,0,0.18);
+    2px 2px 5px rgba(0,0,0,0.3),
+    0 0 5px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
 /* BOTONES CLÁSICOS */
-
 .boton-clasico {
   display: block;
   margin: 1.5em auto;
@@ -77,19 +92,21 @@ body {
   border-radius: 12px;
   border: 1px solid #999;
 
-  /* Sombras más realistas */
+  /* Sombra clara y visible */
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.15),
-    0 6px 14px rgba(0,0,0,0.22);
+    6px 6px 12px rgba(0,0,0,0.48),
+    0 0 10px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
 
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
 }
 
 .boton-clasico:active {
-  transform: translateY(3px);
+  transform: translate(4px, 4px);
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.12),
-    0 3px 6px rgba(0,0,0,0.18);
+    2px 2px 5px rgba(0,0,0,0.3),
+    0 0 5px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
 </style>
@@ -97,10 +114,15 @@ body {
 
 <body>
 
+<!-- TÍTULO PRINCIPAL -->
+<div class="titulo-principal">
+  Página oficial de <strong>La Venganza de Mercurio</strong>
+</div>
+
 <div class="bloque">
 <p>
 Para acceder al <strong>canal oficial de Telegram</strong>,
-pulse directamente sobre el código siguiente:
+escanee o pulse directamente sobre el código siguiente:
 </p>
 </div>
 
@@ -111,7 +133,7 @@ pulse directamente sobre el código siguiente:
 <div class="bloque">
 <p>
 Si desea participar en el <strong>grupo de debate entre lectores</strong>,
-pulse sobre el siguiente código:
+escanee o pulse sobre el siguiente código:
 </p>
 </div>
 

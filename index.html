@@ -31,22 +31,34 @@ body {
     0 0 12px rgba(255,255,255,0.2);
 }
 
-/* BLOQUES DE TEXTO */
+/* BLOQUES DE TEXTO CON PADDING REDUCIDO */
 .bloque {
   background-color: rgba(240,240,240,0.88);
-  margin: 2em auto 1em auto;
-  padding: 1em;
+  margin: 1.2em auto;        /* margen vertical */
+  padding: 0.4em 1em;        /* padding vertical reducido a la mitad */
   border-radius: 12px;
   max-width: 600px;
   text-align: justify;
 }
 
-/* BOTONES ESTILO 3D CON SOMBRA VISIBLE */
+/* CONTENEDOR PARA BOTONES CENTRADOS CON ÁREA DE SOMBRA */
+.boton-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1em auto;
+  padding: 18px; 
+  background-color: rgba(200,200,200,0.9); /* gris opaco para sombras */
+  border-radius: 14px;
+  max-width: 260px;
+  box-sizing: border-box;
+}
+
+/* BOTONES ESTILO 3D CON SOMBRA OSCURA */
 
 /* QR COMO BOTÓN */
 .qr-boton {
   display: block;
-  margin: 1em auto 2em auto;
   max-width: 220px;
   padding: 12px;
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
@@ -54,11 +66,10 @@ body {
   border: 1px solid #aaa;
   text-decoration: none;
 
-  /* Sombra clara y visible */
   box-shadow:
-    6px 6px 10px rgba(0,0,0,0.45),   /* sombra principal visible */
-    0 0 8px rgba(0,0,0,0.25),         /* difusa alrededor */
-    inset 0 1px 0 rgba(255,255,255,0.3); /* borde iluminado superior */
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
 
   transition: all 0.15s ease;
 }
@@ -71,7 +82,7 @@ body {
 }
 
 .qr-boton:active {
-  transform: translate(4px, 4px);  /* baja hacia abajo y derecha */
+  transform: translate(4px, 4px);
   box-shadow:
     2px 2px 5px rgba(0,0,0,0.3),
     0 0 5px rgba(0,0,0,0.18),
@@ -81,8 +92,7 @@ body {
 /* BOTONES CLÁSICOS */
 .boton-clasico {
   display: block;
-  margin: 1.5em auto;
-  max-width: 260px;
+  width: 100%;
   padding: 14px;
   text-align: center;
   font-weight: bold;
@@ -92,7 +102,6 @@ body {
   border-radius: 12px;
   border: 1px solid #999;
 
-  /* Sombra clara y visible */
   box-shadow:
     6px 6px 12px rgba(0,0,0,0.48),
     0 0 10px rgba(0,0,0,0.25),
@@ -126,9 +135,12 @@ escanee o pulse directamente sobre el código siguiente:
 </p>
 </div>
 
-<a class="qr-boton" href="https://t.me/+QNcmEJ3c6705ZTk0">
-  <img src="qrdelcanaldetelegram.gif" alt="Acceso al canal de Telegram">
-</a>
+<!-- Botón QR 1 -->
+<div class="boton-wrapper">
+  <a class="qr-boton" href="https://t.me/+QNcmEJ3c6705ZTk0">
+    <img src="qrdelcanaldetelegram.gif" alt="Acceso al canal de Telegram">
+  </a>
+</div>
 
 <div class="bloque">
 <p>
@@ -137,17 +149,26 @@ escanee o pulse sobre el siguiente código:
 </p>
 </div>
 
-<a class="qr-boton" href="https://t.me/+0D5-J6ZGMMdlOGJk">
-  <img src="qrdelgrupodedebatedetelegram.gif" alt="Acceso al grupo de debate">
-</a>
+<!-- Botón QR 2 -->
+<div class="boton-wrapper">
+  <a class="qr-boton" href="https://t.me/+0D5-J6ZGMMdlOGJk">
+    <img src="qrdelgrupodedebatedetelegram.gif" alt="Acceso al grupo de debate">
+  </a>
+</div>
 
-<a class="boton-clasico" href="compra-bch.html">
-Comprar el libro con BCH
-</a>
+<!-- Botones clásicos -->
+<div class="boton-wrapper">
+  <a class="boton-clasico" href="compra-bch.html">
+    Comprar el libro con BCH
+  </a>
+</div>
 
-<a class="boton-clasico" href="donaciones.html">
-Apoyar el proyecto
-</a>
+<div class="boton-wrapper">
+  <a class="boton-clasico" href="donaciones.html">
+    Apoyar el proyecto
+  </a>
+</div>
 
 </body>
 </html>
+

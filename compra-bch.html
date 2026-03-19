@@ -31,13 +31,46 @@ body {
   max-width: 600px;
 }
 
-.qr-container {
-  text-align: center;
+/* BOTÓN TIPO INDEX */
+.boton-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 1em auto;
+  padding: 18px;
+  background-color: rgba(200,200,200,0.9);
+  border-radius: 14px;
+  max-width: 260px;
 }
 
-.qr-container img {
-  width: 220px;
+.qr-boton {
+  display: block;
+  max-width: 220px;
+  padding: 12px;
+  background: linear-gradient(to bottom, #ffffff, #e4e4e4);
+  border-radius: 14px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+
+  transition: all 0.15s ease;
+}
+
+.qr-boton img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.qr-boton:active {
+  transform: translate(4px, 4px);
+  box-shadow:
+    2px 2px 5px rgba(0,0,0,0.3),
+    0 0 5px rgba(0,0,0,0.18);
 }
 
 .formulario {
@@ -75,7 +108,6 @@ button {
 
 const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
-
 const EUR_TO_BCH = 0.0025;
 
 let precioEUR = 0;
@@ -89,6 +121,11 @@ function obtenerFechaHora() {
   return new Date().toLocaleString();
 }
 
+function copiarDireccion() {
+  navigator.clipboard.writeText(BCH_ADDRESS);
+  alert("Dirección copiada. Ahora puedes pegarla en tu cartera.");
+}
+
 function actualizarPrecio() {
 
   const formato = document.getElementById("formato").value;
@@ -98,7 +135,6 @@ function actualizarPrecio() {
   if(formato === "dura") precioEUR = 20;
 
   if(precioEUR > 0){
-
     precioBCH = (precioEUR * EUR_TO_BCH + Math.random() * 0.00001).toFixed(6);
 
     document.getElementById("precioInfo").innerHTML =
@@ -187,12 +223,8 @@ function copiarMensaje() {
 
 window.onload = function() {
 
-  const pedidoID = generarPedidoID();
-  const fecha = obtenerFechaHora();
-
-  document.getElementById("pedidoID").innerText = pedidoID;
-  document.getElementById("pedidoInput").value = pedidoID;
-  document.getElementById("fechaPedido").value = fecha;
+  document.getElementById("pedidoInput").value = generarPedidoID();
+  document.getElementById("fechaPedido").value = obtenerFechaHora();
 
 }
 
@@ -216,21 +248,19 @@ Todos los precios incluyen gastos de envío.
 —
 </p>
 
-<p style="text-align:center; font-weight:bold;" id="pedidoID">
-Cargando...
-</p>
-
-</div>
-
-<div class="qr-container">
-<img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
 </div>
 
 <div class="bloque">
 <p>
-Realice el pago escaneando el QR e introduzca exactamente el importe indicado.<br>
-Después, envíe el pedido por email.
+Pulse el botón para copiar la dirección de pago y pegarla en su cartera.<br>
+También puede escanear el código si lo prefiere.
 </p>
+</div>
+
+<div class="boton-wrapper">
+  <div class="qr-boton" onclick="copiarDireccion()">
+    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+  </div>
 </div>
 
 <div class="formulario">

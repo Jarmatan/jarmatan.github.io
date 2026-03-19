@@ -99,7 +99,6 @@ function actualizarPrecio() {
 
   if(precioEUR > 0){
 
-    // microvariación para evitar coincidencias
     precioBCH = (precioEUR * EUR_TO_BCH + Math.random() * 0.00001).toFixed(6);
 
     document.getElementById("precioInfo").innerHTML =
@@ -270,7 +269,7 @@ Después, envíe el pedido por email.
 </div>
 
 <button onclick="generarMensaje()">
-Generar mensaje
+Comprar con Bitcoin Cash (BCH)
 </button>
 
 <textarea id="mensajePedido"></textarea>

@@ -76,7 +76,6 @@ button {
 const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 
-// ⚠️ CAMBIA ESTO SI QUIERES PRECIO REAL
 const EUR_TO_BCH = 0.0025;
 
 let precioEUR = 0;
@@ -87,8 +86,7 @@ function generarPedidoID() {
 }
 
 function obtenerFechaHora() {
-  const ahora = new Date();
-  return ahora.toLocaleString();
+  return new Date().toLocaleString();
 }
 
 function actualizarPrecio() {
@@ -99,23 +97,15 @@ function actualizarPrecio() {
   if(formato === "blanda") precioEUR = 15;
   if(formato === "dura") precioEUR = 20;
 
-  precioBCH = (precioEUR * EUR_TO_BCH).toFixed(6);
+  if(precioEUR > 0){
 
-  document.getElementById("precioInfo").innerHTML =
-    `<strong>${precioEUR} € ≈ ${precioBCH} BCH</strong><br>(Gastos de envío incluidos)`;
+    // microvariación para evitar coincidencias
+    precioBCH = (precioEUR * EUR_TO_BCH + Math.random() * 0.00001).toFixed(6);
 
-  generarQR();
-}
+    document.getElementById("precioInfo").innerHTML =
+      `<strong>${precioEUR} € ≈ ${precioBCH} BCH</strong><br>(Gastos de envío incluidos)`;
+  }
 
-function generarQR() {
-
-  if(!precioBCH) return;
-
-  const url = `bitcoincash:${BCH_ADDRESS}?amount=${precioBCH}`;
-
-  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
-
-  document.getElementById("qr").src = qr;
 }
 
 function actualizarCamposEnvio() {
@@ -145,7 +135,7 @@ function generarMensaje() {
   let mensaje =
 `Pedido libro "La Venganza de Mercurio"
 
-ID:
+ID de pedido:
 ${pedido}
 
 Fecha y hora:
@@ -154,8 +144,11 @@ ${fecha}
 Formato:
 ${formato}
 
-Precio:
-${precioEUR} € ≈ ${precioBCH} BCH
+Importe exacto enviado:
+${precioBCH} BCH
+
+Equivalente:
+${precioEUR} €
 
 Nombre:
 ${nombre}
@@ -216,12 +209,12 @@ Comprar el libro – La Venganza de Mercurio
 
 <div class="bloque">
 <p>
-Seleccione el formato. El precio en BCH se calculará automáticamente.<br><br>
+Elija el formato del libro. El precio en BCH se calculará automáticamente.<br><br>
 Todos los precios incluyen gastos de envío.
 </p>
 
 <p id="precioInfo" style="text-align:center; font-size:20px;">
-Seleccione formato
+—
 </p>
 
 <p style="text-align:center; font-weight:bold;" id="pedidoID">
@@ -231,7 +224,14 @@ Cargando...
 </div>
 
 <div class="qr-container">
-<img id="qr" src="" alt="QR BCH">
+<img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+</div>
+
+<div class="bloque">
+<p>
+Realice el pago escaneando el QR e introduzca exactamente el importe indicado.<br>
+Después, envíe el pedido por email.
+</p>
 </div>
 
 <div class="formulario">

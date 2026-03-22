@@ -46,7 +46,7 @@ body {
   transition: padding-bottom 0.25s ease;
 }
 
-.qr-boton, button.copiador {
+.qr-boton {
   display: block;
   max-width: 220px;
   padding: 12px;
@@ -54,7 +54,6 @@ body {
   border-radius: 14px;
   border: 1px solid #aaa;
   cursor: pointer;
-  text-align: center;
   box-shadow:
     6px 6px 10px rgba(0,0,0,0.45),
     0 0 8px rgba(0,0,0,0.25),
@@ -68,24 +67,23 @@ body {
   pointer-events: none;
 }
 
-.qr-boton:active, button.copiador:active {
+.qr-boton:active {
   transform: translate(4px,4px);
 }
 
-#feedbackQR, #feedbackMensaje, #feedbackEmail {
+#feedbackQR {
   position: absolute;
-  bottom: 10px;
+  bottom: 8px;
   left: 0;
   right: 0;
   text-align: center;
   font-size: 14px;
   color: green;
-  font-weight: bold;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.feedback-visible {
+#feedbackQR.visible {
   opacity: 1;
 }
 
@@ -102,9 +100,6 @@ body {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-  background-color: #e8f5e9; /* fondo verdoso */
-  border: 1px solid #aaa;
-  border-radius: 6px;
 }
 
 textarea {
@@ -116,8 +111,6 @@ button {
   width: 100%;
   padding: 12px;
   font-size: 18px;
-  margin-top: 10px;
-  cursor: pointer;
 }
 
 .direccion-envio {
@@ -138,33 +131,16 @@ function obtenerFechaHora() {
   return new Date().toLocaleString();
 }
 
-function mostrarFeedback(idFeedback, contenedor = null) {
-  const feedback = document.getElementById(idFeedback);
-  if(contenedor) contenedor.style.paddingBottom = "50px";
-  feedback.classList.add("feedback-visible");
-  setTimeout(() => {
-    feedback.classList.remove("feedback-visible");
-    if(contenedor) contenedor.style.paddingBottom = "18px";
-  }, 2000);
-}
-
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
+    const feedback = document.getElementById("feedbackQR");
     const contenedor = document.getElementById("contenedorQR");
-    mostrarFeedback("feedbackQR", contenedor);
-  });
-}
-
-function copiarMensaje() {
-  const texto = document.getElementById("mensajePedido");
-  texto.select();
-  document.execCommand("copy");
-  mostrarFeedback("feedbackMensaje");
-}
-
-function copiarEmail() {
-  navigator.clipboard.writeText(EMAIL_CONTACTO).then(() => {
-    mostrarFeedback("feedbackEmail");
+    contenedor.style.paddingBottom = "40px";
+    feedback.classList.add("visible");
+    setTimeout(() => {
+      feedback.classList.remove("visible");
+      contenedor.style.paddingBottom = "18px";
+    }, 2000);
   });
 }
 
@@ -172,6 +148,8 @@ function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+
+  // actualizar el campo oculto de formato y precio en el formulario
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 }
 
@@ -181,6 +159,7 @@ function generarMensaje() {
   const formato = document.getElementById("formatoPedido").value;
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
+
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudad").value;
   const postal = document.getElementById("postal").value;
@@ -214,6 +193,13 @@ ${pais}
   }
 
   document.getElementById("mensajePedido").value = mensaje;
+}
+
+function copiarMensaje() {
+  const texto = document.getElementById("mensajePedido");
+  texto.select();
+  document.execCommand("copy");
+  alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
 }
 
 window.onload = function() {
@@ -299,18 +285,8 @@ Le confirmaremos la recepción y el envío de su pedido.
 </div>
 
 <button onclick="generarMensaje()">Comprar con Bitcoin Cash (BCH)</button>
-
 <textarea id="mensajePedido"></textarea>
-
-<div class="boton-wrapper" style="position: relative;">
-  <button class="copiador" onclick="copiarMensaje()">Copiar mensaje</button>
-  <div id="feedbackMensaje">Mensaje copiado</div>
-</div>
-
-<div class="boton-wrapper" style="position: relative;">
-  <button class="copiador" onclick="copiarEmail()">Copiar la dirección de email<br><strong>lavenganzademercurio@gmail.com</strong></button>
-  <div id="feedbackEmail">Email copiado</div>
-</div>
+<button onclick="copiarMensaje()">Copiar mensaje</button>
 
 </div>
 

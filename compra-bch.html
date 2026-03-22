@@ -62,6 +62,8 @@ body {
   text-align: center;
   white-space: normal;
   margin: 0 auto;
+  height: 70px; /* altura uniforme */
+  line-height: 1.3em;
 }
 
 .qr-boton img {
@@ -126,6 +128,8 @@ textarea {
     inset 0 1px 0 rgba(255,255,255,0.3);
   text-align: center;
   white-space: normal;
+  height: 70px; /* altura uniforme igual que QR */
+  line-height: 1.3em;
 }
 
 .boton-formulario:active {
@@ -183,10 +187,10 @@ function actualizarCamposEnvio() {
       formatoSelect.style.backgroundColor = "#cce5cc"; // verde
       break;
     case "blanda":
-      formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo
+      formatoSelect.style.backgroundColor = "#b3d9ff"; // azul
       break;
     case "dura":
-      formatoSelect.style.backgroundColor = "#b3d9ff"; // azul
+      formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo
       break;
     default:
       formatoSelect.style.backgroundColor = "#ffffffcc"; // blanco translúcido
@@ -289,10 +293,10 @@ También puede escanearlo si lo prefiere.
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
 <p>
-Rellene el formulario y pulse "Generar el pedido".
+Rellene el formulario y pulse "Pulse aquí para generar el pedido".
 </p>
 <p>
-Después, pulse "Copiar mensaje" y envíelo por email a:<br>
+Después, pulse "Puse aquí para copiar el pedido" y envíelo por email a:<br>
 <strong>lavenganzademercurio@gmail.com</strong>
 </p>
 <p>
@@ -323,8 +327,8 @@ Le confirmaremos la recepción y el envío de su pedido.
 <input type="text" id="pais">
 </div>
 
-<!-- Botones del formulario con ancho completo -->
-<button class="boton-formulario" onclick="generarMensaje()">Generar el pedido</button>
+<!-- Botones con altura uniforme y ancho completo del formulario -->
+<button class="boton-formulario" onclick="generarMensaje()">Pulse aquí para generar el pedido</button>
 <textarea id="mensajePedido"></textarea>
 <button class="boton-formulario" onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
 <button class="boton-formulario" onclick="copiarEmail()">

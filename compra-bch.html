@@ -104,6 +104,8 @@ textarea {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  background-color: #fff; /* Inicial blanco */
+  transition: background-color 0.3s ease;
 }
 
 textarea {
@@ -144,6 +146,13 @@ const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
 
+// Colores según formato
+const COLORES_FORMATO = {
+  ebook: "#66cc66",
+  blanda: "#3366ff",
+  dura: "#ffcc33"
+};
+
 function generarPedidoID() {
   return 'MERC-' + Date.now();
 }
@@ -175,31 +184,23 @@ function actualizarCamposEnvio() {
   const formatoSelect = document.getElementById("formato");
   const formato = formatoSelect.value;
   const envio = document.getElementById("direccionEnvio");
+
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 
-  let colorCampo;
-  switch(formato) {
-    case "ebook":
-      colorCampo = "#66cc66"; // verde
-      break;
-    case "blanda":
-      colorCampo = "#3366ff"; // azul
-      break;
-    case "dura":
-      colorCampo = "#ffcc33"; // amarillo
-      break;
-    default:
-      colorCampo = "#ffffffcc";
-  }
+  // Color para el select
+  formatoSelect.style.backgroundColor = formato ? COLORES_FORMATO[formato] : "#ffffffcc";
 
-  // Cambiar color de fondo del select
-  formatoSelect.style.backgroundColor = colorCampo;
-
-  // Cambiar color de fondo de todos los campos del formulario
+  // Actualizar colores de los campos según el valor introducido
   const campos = document.querySelectorAll(".formulario input, .formulario textarea");
   campos.forEach(campo => {
-    campo.style.backgroundColor = colorCampo;
+    campo.addEventListener('input', () => {
+      if(campo.value.trim() !== "" && formato) {
+        campo.style.backgroundColor = COLORES_FORMATO[formato];
+      } else {
+        campo.style.backgroundColor = "#fff";
+      }
+    });
   });
 }
 

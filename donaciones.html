@@ -25,8 +25,6 @@
       border-radius: 10px;
       max-width: 600px;
       text-align: justify;
-      font-size: 18px;
-      line-height: 1.7;
     }
 
     .bloque p {
@@ -35,18 +33,22 @@
     }
 
     .qr-bloque {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       margin: 1em auto;
       padding: 18px;
       max-width: 255px;
       border-radius: 12px;
       background-color: rgba(240,240,240,0.9);
       position: relative;
-      text-align: center;
     }
 
     .qr-boton {
+      max-width: 220px;
       cursor: pointer;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid #aaa;
       padding: 12px;
       background: linear-gradient(to bottom, #ffffff, #e4e4e4);
@@ -55,6 +57,7 @@
         0 0 8px rgba(0,0,0,0.25),
         inset 0 1px 0 rgba(255,255,255,0.3);
       transition: all 0.15s ease;
+      text-align: center;
     }
 
     .qr-boton img {
@@ -69,7 +72,8 @@
     #feedbackQR {
       position: absolute;
       bottom: 8px;
-      width: 100%;
+      left: 0;
+      right: 0;
       text-align: center;
       font-size: 14px;
       color: green;
@@ -134,13 +138,11 @@
     <p>
       Si desea apoyar este proyecto y a su autor, puede hacerlo mediante donaciones en
       <strong>Bitcoin Cash (BCH)</strong>. Esta página pretende también servir como una
-      breve introducción práctica al uso de esta criptodivisa.<br>
-      <br>
-      Para copiar la dirección, puede pulsar el QR o escanearlo con su cartera BCH.
+      breve introducción práctica al uso de esta criptodivisa.
     </p>
   </div>
 
-  <div class="qr-bloque">
+  <div class="qr-bloque" id="contenedorQR">
     <div class="qr-boton" onclick="copiarDireccion()">
       <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
     </div>
@@ -157,7 +159,7 @@
     function copiarDireccion() {
       navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
         const feedback = document.getElementById("feedbackQR");
-        const contenedor = document.querySelector(".qr-bloque");
+        const contenedor = document.getElementById("contenedorQR");
         contenedor.style.paddingBottom = "40px";
         feedback.classList.add("visible");
         setTimeout(() => {

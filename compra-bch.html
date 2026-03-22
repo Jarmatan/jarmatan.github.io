@@ -32,7 +32,6 @@ body {
   line-height: 1.5em;
 }
 
-/* BOTÓN TIPO INDEX */
 .boton-wrapper {
   display: flex;
   justify-content: center;
@@ -106,10 +105,6 @@ button {
 
 const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
-const EUR_TO_BCH = 0.0025;
-
-let precioEUR = 0;
-let precioBCH = 0;
 
 function generarPedidoID() {
   return 'MERC-' + Date.now();
@@ -124,31 +119,12 @@ function copiarDireccion() {
   alert("Dirección copiada. Ahora puedes pegarla en tu cartera.");
 }
 
-function actualizarPrecio() {
-
-  const formato = document.getElementById("formato").value;
-
-  if(formato === "ebook") precioEUR = 5;
-  if(formato === "blanda") precioEUR = 15;
-  if(formato === "dura") precioEUR = 20;
-
-  if(precioEUR > 0){
-    precioBCH = (precioEUR * EUR_TO_BCH + Math.random() * 0.00001).toFixed(6);
-
-    document.getElementById("precioInfo").innerHTML =
-      `<strong>${precioEUR} € ≈ ${precioBCH} BCH</strong><br>(Gastos de envío incluidos)`;
-  }
-
-}
-
 function actualizarCamposEnvio() {
 
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
 
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-
-  actualizarPrecio();
 }
 
 function generarMensaje() {
@@ -176,12 +152,6 @@ ${fecha}
 
 Formato:
 ${formato}
-
-Importe exacto enviado:
-${precioBCH} BCH
-
-Equivalente:
-${precioEUR} €
 
 Nombre:
 ${nombre}
@@ -249,10 +219,6 @@ Tapa dura: 20 €
 <p>
 Todos los precios incluyen gastos de envío.
 </p>
-
-<p id="precioInfo" style="text-align:center; font-size:20px;">
-—
-</p>
 </div>
 
 <!-- PASO 2 -->
@@ -265,7 +231,7 @@ También puede escanear el código si lo prefiere.
 </p>
 
 <p>
-Introduzca exactamente el importe indicado arriba.
+Introduzca en su billetera el importe correspondiente en euros.
 </p>
 </div>
 

@@ -34,20 +34,19 @@ body {
 }
 
 /* CONTENEDOR QR */
-.boton-wrapper {
+#contenedorQR {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1em auto;
+  margin: 1em auto 2em auto; /* margen inferior más grande para espacio del mensaje */
   padding: 18px;
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
   max-width: 260px;
-  transition: height 0.3s ease;
+  transition: padding-bottom 0.3s ease;
 }
 
-/* QR */
 .qr-boton {
   display: block;
   max-width: 220px;
@@ -148,11 +147,11 @@ function copiarDireccion() {
   const feedback = document.getElementById("feedbackQR");
   const contenedor = document.getElementById("contenedorQR");
 
-  // Expandir contenedor
+  // Expandir contenedor para mensaje
   contenedor.style.paddingBottom = "40px";
-
   feedback.classList.add("visible");
 
+  // Ocultar mensaje después de 2s y restaurar padding
   setTimeout(() => {
     feedback.classList.remove("visible");
     contenedor.style.paddingBottom = "18px";
@@ -166,7 +165,6 @@ function actualizarCamposEnvio() {
 }
 
 function generarMensaje() {
-
   const pedido = document.getElementById("pedidoInput").value;
   const fecha = document.getElementById("fechaPedido").value;
 
@@ -258,14 +256,76 @@ También puede escanearlo si lo prefiere.
 <p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
 
+<!-- CONTENEDOR QR CON FEEDBACK -->
 <div id="contenedorQR" class="boton-wrapper">
   <div class="qr-boton" onclick="copiarDireccion()">
     <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
   </div>
-
   <div id="feedbackQR" class="feedback">
     ✔ Dirección copiada
   </div>
+</div>
+
+<!-- PASO 3: FORMULARIO -->
+<div class="bloque">
+<p><strong>3. Envíe su pedido</strong></p>
+<p>
+Rellene el formulario y pulse "Comprar con Bitcoin Cash (BCH)".
+</p>
+<p>
+Después, pulse "Copiar mensaje" y envíelo por email a:<br>
+<strong>lavenganzademercurio@gmail.com</strong>
+</p>
+<p>
+Le confirmaremos la recepción y el envío de su pedido.
+</p>
+</div>
+
+<div class="formulario">
+
+<input type="hidden" id="pedidoInput">
+<input type="hidden" id="fechaPedido">
+
+<label>Formato</label>
+<select id="formato" onchange="actualizarCamposEnvio()" required>
+<option value="">Seleccione</option>
+<option value="ebook">eBook (5€)</option>
+<option value="blanda">Tapa blanda (15€)</option>
+<option value="dura">Tapa dura (20€)</option>
+</select>
+
+<label>Nombre</label>
+<input type="text" id="nombre">
+
+<label>Email</label>
+<input type="email" id="email">
+
+<div id="direccionEnvio" class="direccion-envio">
+
+<label>Dirección</label>
+<input type="text" id="direccion">
+
+<label>Ciudad</label>
+<input type="text" id="ciudad">
+
+<label>Código postal</label>
+<input type="text" id="postal">
+
+<label>País</label>
+<input type="text" id="pais">
+
+</div>
+
+<button onclick="generarMensaje()">
+Comprar con Bitcoin Cash (BCH)
+</button>
+
+<textarea id="mensajePedido"></textarea>
+
+<button onclick="copiarMensaje()">
+Copiar mensaje
+</button>
+
 </div>
 
 </body>

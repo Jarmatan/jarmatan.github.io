@@ -21,6 +21,7 @@ body {
   font-weight: bold;
   margin: 2em auto 1em auto;
   color: #fff;
+  line-height: 1.3em;
 }
 
 .bloque {
@@ -29,29 +30,64 @@ body {
   padding: 1.2em;
   border-radius: 12px;
   max-width: 600px;
+  line-height: 1.5em;
 }
 
 .boton-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 1em auto;
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
   max-width: 260px;
+  position: relative;
   padding: 18px;
+  transition: padding-bottom 0.25s ease;
 }
 
 .qr-boton {
+  display: block;
   max-width: 220px;
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
   border-radius: 14px;
   border: 1px solid #aaa;
   cursor: pointer;
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  transition: all 0.15s ease;
+  text-align: center;
+  white-space: normal;
+  margin: 0 auto;
   padding: 12px;
 }
 
 .qr-boton img {
   width: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.qr-boton:active {
+  transform: translate(4px,4px);
+}
+
+#feedbackQR {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  color: green;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#feedbackQR.visible {
+  opacity: 1;
 }
 
 .formulario {
@@ -72,12 +108,12 @@ textarea {
   transition: background-color 0.3s ease;
 }
 
-/* 🔴 CLAVE: eliminar verde automático */
-input:valid,
-input:invalid,
-textarea:valid,
-textarea:invalid {
-  background-color: inherit !important;
+/* 🔴 CLAVE: eliminar verde automático del navegador */
+.formulario input:valid,
+.formulario input:invalid,
+.formulario textarea:valid,
+.formulario textarea:invalid {
+  background-color: #fff !important;
   box-shadow: none !important;
 }
 
@@ -89,12 +125,24 @@ textarea {
 .boton-formulario {
   width: 100%;
   padding: 12px;
+  font-size: 18px;
   margin-top: 8px;
+  cursor: pointer;
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
   border-radius: 14px;
   border: 1px solid #aaa;
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  text-align: center;
+  white-space: normal;
   height: 70px;
-  cursor: pointer;
+  line-height: 1.3em;
+}
+
+.boton-formulario:active {
+  transform: translate(4px,4px);
 }
 
 .direccion-envio {
@@ -103,50 +151,133 @@ textarea {
 </style>
 
 <script>
+const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
+const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
 
-const COLORES = {
+const COLORES_FORMATO = {
   ebook: "#66cc66",
   blanda: "#3366ff",
   dura: "#ffcc33"
 };
 
-function colorActual() {
-  const f = document.getElementById("formato").value;
-  return COLORES[f] || null;
+function generarPedidoID() {
+  return 'MERC-' + Date.now();
+}
+
+function obtenerFechaHora() {
+  return new Date().toLocaleString();
+}
+
+function copiarDireccion() {
+  navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
+    const feedback = document.getElementById("feedbackQR");
+    const contenedor = document.getElementById("contenedorQR");
+    contenedor.style.paddingBottom = "40px";
+    feedback.classList.add("visible");
+    setTimeout(() => {
+      feedback.classList.remove("visible");
+      contenedor.style.paddingBottom = "18px";
+    }, 2000);
+  });
+}
+
+function copiarEmail() {
+  navigator.clipboard.writeText(EMAIL_CONTACTO).then(() => {
+    alert("Email copiado: " + EMAIL_CONTACTO);
+  });
 }
 
 function actualizarCamposEnvio() {
-  const f = document.getElementById("formato").value;
+  const formato = document.getElementById("formato").value;
+  const envio = document.getElementById("direccionEnvio");
 
-  document.getElementById("direccionEnvio").style.display =
-    (f === "blanda" || f === "dura") ? "block" : "none";
+  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+
+  document.getElementById("formatoPedido").value =
+    `${formato} ${PRECIOS[formato] || ''}€`;
 
   document.getElementById("formato").style.backgroundColor =
-    f ? COLORES[f] : "#fff";
+    formato ? COLORES_FORMATO[formato] : "#ffffffcc";
 
-  actualizarColores();
+  actualizarColoresCampos();
 }
 
-function actualizarColores() {
-  const color = colorActual();
+function actualizarColoresCampos() {
+  const formato = document.getElementById("formato").value;
+  const color = COLORES_FORMATO[formato];
 
-  document.querySelectorAll(".formulario input, textarea").forEach(c => {
-    if (c.value.trim() && color) {
-      c.style.backgroundColor = color;
-    } else {
-      c.style.backgroundColor = "#fff";
-    }
-  });
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => {
+      if (campo.value.trim() !== "" && color) {
+        campo.style.backgroundColor = color;
+      } else {
+        campo.style.backgroundColor = "#fff";
+      }
+    });
 }
 
-function init() {
-  document.querySelectorAll(".formulario input, textarea").forEach(c => {
-    c.addEventListener("input", actualizarColores);
-  });
+function generarMensaje() {
+  const pedido = document.getElementById("pedidoInput").value;
+  const fecha = document.getElementById("fechaPedido").value;
+  const formato = document.getElementById("formatoPedido").value;
+
+  const nombre = document.getElementById("nombre").value;
+  const email = document.getElementById("email").value;
+
+  const direccion = document.getElementById("direccion").value;
+  const ciudad = document.getElementById("ciudad").value;
+  const postal = document.getElementById("postal").value;
+  const pais = document.getElementById("pais").value;
+
+  let mensaje = `Pedido libro "La Venganza de Mercurio"
+
+ID de pedido:
+${pedido}
+
+Fecha y hora:
+${fecha}
+
+Formato y precio:
+${formato}
+
+Nombre:
+${nombre}
+
+Email:
+${email}
+`;
+
+  if(formato.includes("blanda") || formato.includes("dura")) {
+    mensaje += `Dirección de envío:
+${direccion}
+${ciudad}
+${postal}
+${pais}
+`;
+  }
+
+  document.getElementById("mensajePedido").value = mensaje;
+
+  actualizarColoresCampos();
 }
 
-window.onload = init;
+function copiarMensaje() {
+  const texto = document.getElementById("mensajePedido");
+  texto.select();
+  document.execCommand("copy");
+  alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
+}
+
+window.onload = function() {
+  document.getElementById("pedidoInput").value = generarPedidoID();
+  document.getElementById("fechaPedido").value = obtenerFechaHora();
+
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => {
+      campo.addEventListener("input", actualizarColoresCampos);
+    });
+};
 </script>
 
 </head>
@@ -154,35 +285,83 @@ window.onload = init;
 <body>
 
 <div class="titulo-principal">
-Comprar el libro – La Venganza de Mercurio
+Comprar el libro – La Venganza de Mercurio<br>
+con Bitcoin Cash (BCH)
 </div>
 
+<!-- PASO 1 -->
 <div class="bloque">
-<select id="formato" onchange="actualizarCamposEnvio()">
-  <option value="">Seleccione</option>
-  <option value="ebook">eBook</option>
-  <option value="blanda">Tapa blanda</option>
-  <option value="dura">Tapa dura</option>
+<p><strong>1. Elija el formato del libro</strong></p>
+<select id="formato" onchange="actualizarCamposEnvio()" required>
+<option value="">Seleccione</option>
+<option value="ebook">eBook (5€)</option>
+<option value="blanda">Tapa blanda (17€)</option>
+<option value="dura">Tapa dura (20€)</option>
 </select>
+<p>Todos los precios incluyen gastos de envío.</p>
+</div>
+
+<!-- PASO 2 -->
+<div class="bloque">
+<p><strong>2. Realice el pago</strong></p>
+<p>
+Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera. También puede escanearlo si lo prefiere.
+</p>
+<p>Introduzca en su billetera el importe correspondiente en euros.</p>
+</div>
+
+<div class="boton-wrapper" id="contenedorQR">
+  <div class="qr-boton" onclick="copiarDireccion()">
+    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+  </div>
+  <div id="feedbackQR">Dirección copiada al portapapeles</div>
+</div>
+
+<!-- PASO 3 -->
+<div class="bloque">
+<p><strong>3. Envíe su pedido</strong></p>
+<p>
+Rellene el formulario y pulse el botón de Generar el Pedido.
+</p>
+<p>
+Después, pulse el botón de copiar el pedido y envíelo por email a:<br>
+<strong>lavenganzademercurio@gmail.com</strong>
+</p>
+<p>
+Le confirmaremos la recepción y el envío de su pedido.
+</p>
 </div>
 
 <div class="formulario">
 
+<input type="hidden" id="pedidoInput">
+<input type="hidden" id="fechaPedido">
+<input type="hidden" id="formatoPedido">
+
 <label>Nombre</label>
-<input type="text">
+<input type="text" id="nombre">
 
 <label>Email</label>
-<input type="email">
+<input type="email" id="email">
 
 <div id="direccionEnvio" class="direccion-envio">
 <label>Dirección</label>
-<input type="text">
+<input type="text" id="direccion">
+<label>Ciudad</label>
+<input type="text" id="ciudad">
+<label>Código postal</label>
+<input type="text" id="postal">
+<label>País</label>
+<input type="text" id="pais">
 </div>
 
-<textarea></textarea>
-
-<button class="boton-formulario">Generar pedido</button>
-<button class="boton-formulario">Copiar pedido</button>
+<button class="boton-formulario" onclick="generarMensaje()">Pulse aquí para generar el pedido</button>
+<textarea id="mensajePedido"></textarea>
+<button class="boton-formulario" onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
+<button class="boton-formulario" onclick="copiarEmail()">
+  Pulse aquí para copiar la dirección<br>
+  lavenganzademercurio@gmail.com
+</button>
 
 </div>
 

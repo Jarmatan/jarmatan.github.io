@@ -136,14 +136,9 @@ button {
 </style>
 
 <script>
+const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
-
-// Definimos los precios
-const PRECIOS = {
-  ebook: 5,
-  blanda: 17,
-  dura: 20
-};
+const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
 
 function generarPedidoID() {
   return 'MERC-' + Date.now();
@@ -154,40 +149,43 @@ function obtenerFechaHora() {
 }
 
 function copiarDireccion() {
-  const feedback = document.getElementById("feedbackQR");
-  const contenedor = document.getElementById("contenedorQR");
+  // Copiar al portapapeles
+  navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
+    const feedback = document.getElementById("feedbackQR");
+    const contenedor = document.getElementById("contenedorQR");
 
-  contenedor.style.paddingBottom = "40px";
-  feedback.classList.add("visible");
+    contenedor.style.paddingBottom = "40px";
+    feedback.classList.add("visible");
 
-  setTimeout(() => {
-    feedback.classList.remove("visible");
-    contenedor.style.paddingBottom = "18px";
-  }, 2000);
+    setTimeout(() => {
+      feedback.classList.remove("visible");
+      contenedor.style.paddingBottom = "18px";
+    }, 2000);
+  });
 }
 
 function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
-  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 
-  // Resaltar formato seleccionado
-  const selector = document.getElementById("formato");
-  if (formato !== "") {
-    selector.classList.add("resaltado");
+  if(formato === "blanda" || formato === "dura") {
+    envio.style.display = "block";
   } else {
-    selector.classList.remove("resaltado");
+    envio.style.display = "none";
   }
+
+  // Resaltar selector
+  const selector = document.getElementById("formato");
+  if(formato !== "") selector.classList.add("resaltado");
+  else selector.classList.remove("resaltado");
 }
 
 function generarMensaje() {
   const pedido = document.getElementById("pedidoInput").value;
   const fecha = document.getElementById("fechaPedido").value;
-
   const formato = document.getElementById("formato").value;
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
-
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudad").value;
   const postal = document.getElementById("postal").value;
@@ -195,8 +193,7 @@ function generarMensaje() {
 
   const precioEUR = PRECIOS[formato];
 
-  let mensaje =
-`Pedido libro "La Venganza de Mercurio"
+  let mensaje = `Pedido libro "La Venganza de Mercurio"
 
 ID de pedido:
 ${pedido}
@@ -216,8 +213,7 @@ ${email}
 `;
 
   if(formato === "blanda" || formato === "dura") {
-    mensaje +=
-`Dirección de envío:
+    mensaje += `Dirección de envío:
 ${direccion}
 ${ciudad}
 ${postal}

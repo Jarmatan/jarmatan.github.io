@@ -46,7 +46,7 @@ body {
   transition: padding-bottom 0.25s ease;
 }
 
-.qr-boton {
+.qr-boton, .btn-copiar-email {
   display: block;
   max-width: 220px;
   padding: 12px;
@@ -59,6 +59,8 @@ body {
     0 0 8px rgba(0,0,0,0.25),
     inset 0 1px 0 rgba(255,255,255,0.3);
   transition: all 0.15s ease;
+  text-align: center;
+  white-space: normal;
 }
 
 .qr-boton img {
@@ -67,7 +69,7 @@ body {
   pointer-events: none;
 }
 
-.qr-boton:active {
+.qr-boton:active, .btn-copiar-email:active {
   transform: translate(4px,4px);
 }
 
@@ -113,14 +115,13 @@ button {
   font-size: 18px;
   margin-top: 8px;
   cursor: pointer;
-  text-align: center;
-  white-space: normal; /* permite que el texto se divida en varias líneas */
 }
 
 #btnEmail {
   padding: 16px 12px;
   line-height: 1.3em;
 }
+
 .direccion-envio {
   display: none;
 }
@@ -172,16 +173,16 @@ function actualizarCamposEnvio() {
   // Cambiar color de fondo según opción (paleta armoniosa)
   switch(formato) {
     case "ebook":
-      formatoSelect.style.backgroundColor = "#cce5cc"; // verde suave apagado
+      formatoSelect.style.backgroundColor = "#cce5cc"; // verde suave
       break;
     case "blanda":
       formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo suave
       break;
     case "dura":
-      formatoSelect.style.backgroundColor = "#f4cccc"; // rojo suave apagado
+      formatoSelect.style.backgroundColor = "#b3d9ff"; // azul suave
       break;
     default:
-      formatoSelect.style.backgroundColor = "#ffffffcc"; // blanco translúcido por defecto
+      formatoSelect.style.backgroundColor = "#ffffffcc"; // blanco translúcido
   }
 }
 
@@ -282,7 +283,7 @@ También puede escanearlo si lo prefiere.
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
 <p>
-Rellene el formulario y pulse "Pulse aquí para generar el pedido".
+Rellene el formulario y pulse "Generar el pedido".
 </p>
 <p>
 Después, pulse "Copiar mensaje" y envíelo por email a:<br>
@@ -320,8 +321,8 @@ Le confirmaremos la recepción y el envío de su pedido.
 <textarea id="mensajePedido"></textarea>
 <button onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
 
-<!-- Botón para copiar email con texto centrado y dos líneas -->
-<button id="btnEmail" onclick="copiarEmail()">
+<!-- Botón de copiar email con mismo estilo que QR y texto centrado -->
+<button class="btn-copiar-email" onclick="copiarEmail()">
   Pulse aquí para copiar la dirección<br>
   lavenganzademercurio@gmail.com
 </button>

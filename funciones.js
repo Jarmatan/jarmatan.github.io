@@ -1,15 +1,23 @@
+/* ===== Variables globales ===== */
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
 const COLORES_FORMATO = { ebook: "#b7e4b7", blanda: "#b3c7ff", dura: "#ffe599" };
 
-function generarPedidoID() { return 'MERC-' + Date.now(); }
-function obtenerFechaHora() { return new Date().toLocaleString(); }
+/* ===== Generación de ID de pedido y fecha ===== */
+function generarPedidoID() {
+  return 'MERC-' + Date.now();
+}
 
+function obtenerFechaHora() {
+  return new Date().toLocaleString();
+}
+
+/* ===== Copiar dirección BCH ===== */
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
     const feedback = document.getElementById("feedbackQR");
-    const contenedor = document.getElementById("contenedorQR");
+    const contenedor = document.querySelector(".boton-wrapper");
     contenedor.style.paddingBottom = "40px";
     feedback.classList.add("visible");
     setTimeout(() => {
@@ -19,44 +27,50 @@ function copiarDireccion() {
   });
 }
 
+/* ===== Copiar email ===== */
 function copiarEmail() {
   navigator.clipboard.writeText(EMAIL_CONTACTO);
   alert("Email copiado: " + EMAIL_CONTACTO);
 }
 
+/* ===== Actualizar campos según formato ===== */
 function actualizarCamposEnvio() {
-  const formato = document.getElementById("formato")?.value || "ebook";
+  const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
-  if (envio) envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-  const formatoPedido = document.getElementById("formatoPedido");
-  if (formatoPedido) formatoPedido.value = `${formato} ${PRECIOS[formato] || ''}€`;
-  const selectFormato = document.getElementById("formato");
-  if (selectFormato) selectFormato.style.backgroundColor = COLORES_FORMATO[formato] || "#fff";
+  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+
+  document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
+  document.getElementById("formato").style.backgroundColor = formato ? COLORES_FORMATO[formato] : "#fff";
+
   actualizarColoresCampos();
 }
 
+/* ===== Colorear campos con sombra interior según valor ===== */
 function actualizarColoresCampos() {
-  const formato = document.getElementById("formato")?.value || "ebook";
+  const formato = document.getElementById("formato").value;
   const color = COLORES_FORMATO[formato];
-  document.querySelectorAll(".formulario input, .formulario textarea").forEach(campo => {
-    if (campo.value.trim() !== "" && color) {
-      campo.style.boxShadow = `inset 0 0 0 1000px ${color}`;
-    } else {
-      campo.style.boxShadow = "none";
-    }
-  });
+
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => {
+      if (campo.value.trim() !== "" && color) {
+        campo.style.boxShadow = `inset 0 0 0 1000px ${color}`;
+      } else {
+        campo.style.boxShadow = "none";
+      }
+    });
 }
 
+/* ===== Generar mensaje del pedido ===== */
 function generarMensaje() {
-  const pedido = document.getElementById("pedidoInput")?.value || "";
-  const fecha = document.getElementById("fechaPedido")?.value || "";
-  const formato = document.getElementById("formatoPedido")?.value || "";
-  const nombre = document.getElementById("nombre")?.value || "";
-  const email = document.getElementById("email")?.value || "";
-  const direccion = document.getElementById("direccion")?.value || "";
-  const ciudad = document.getElementById("ciudad")?.value || "";
-  const postal = document.getElementById("postal")?.value || "";
-  const pais = document.getElementById("pais")?.value || "";
+  const pedido = document.getElementById("pedidoInput").value;
+  const fecha = document.getElementById("fechaPedido").value;
+  const formato = document.getElementById("formatoPedido").value;
+  const nombre = document.getElementById("nombre").value;
+  const email = document.getElementById("email").value;
+  const direccion = document.getElementById("direccion").value;
+  const ciudad = document.getElementById("ciudad").value;
+  const postal = document.getElementById("postal").value;
+  const pais = document.getElementById("pais").value;
 
   let mensaje = `Pedido libro "La Venganza de Mercurio"
 
@@ -85,26 +99,26 @@ ${pais}
 `;
   }
 
-  const texto = document.getElementById("mensajePedido");
-  if (texto) texto.value = mensaje;
+  document.getElementById("mensajePedido").value = mensaje;
   actualizarColoresCampos();
 }
 
+/* ===== Copiar mensaje al portapapeles ===== */
 function copiarMensaje() {
   const texto = document.getElementById("mensajePedido");
-  if (texto) {
-    texto.select();
-    document.execCommand("copy");
-    alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
-  }
+  texto.select();
+  document.execCommand("copy");
+  alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
 }
 
+/* ===== Inicialización al cargar la página ===== */
 window.onload = function() {
   const pedidoInput = document.getElementById("pedidoInput");
-  if (pedidoInput) pedidoInput.value = generarPedidoID();
-  const fechaPedido = document.getElementById("fechaPedido");
-  if (fechaPedido) fechaPedido.value = obtenerFechaHora();
-  document.querySelectorAll(".formulario input, .formulario textarea").forEach(campo => {
-    campo.addEventListener("input", actualizarColoresCampos);
-  });
+  const fechaInput = document.getElementById("fechaPedido");
+
+  if(pedidoInput) pedidoInput.value = generarPedidoID();
+  if(fechaInput) fechaInput.value = obtenerFechaHora();
+
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => campo.addEventListener("input", actualizarColoresCampos));
 };

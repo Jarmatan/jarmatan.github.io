@@ -61,7 +61,7 @@ body {
   text-align: center;
   white-space: normal;
   margin: 0 auto;
-  padding: 12px; /* tamaño del contenedor */
+  padding: 12px;
 }
 
 .qr-boton img {
@@ -103,12 +103,12 @@ body {
 textarea {
   width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
   box-sizing: border-box;
 }
 
 textarea {
   height: 220px;
+  margin: 10px 0; /* distancia uniforme superior e inferior */
 }
 
 .boton-formulario {
@@ -182,13 +182,13 @@ function actualizarCamposEnvio() {
 
   switch(formato) {
     case "ebook":
-      formatoSelect.style.backgroundColor = "#66cc66"; // verde más fuerte
+      formatoSelect.style.backgroundColor = "#66cc66"; // verde intenso
       break;
     case "blanda":
-      formatoSelect.style.backgroundColor = "#3399ff"; // azul más claro y distinguible
+      formatoSelect.style.backgroundColor = "#3366ff"; // azul intenso
       break;
     case "dura":
-      formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo
+      formatoSelect.style.backgroundColor = "#ffcc33"; // amarillo intenso
       break;
     default:
       formatoSelect.style.backgroundColor = "#ffffffcc";

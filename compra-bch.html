@@ -33,13 +33,12 @@ body {
   line-height: 1.5em;
 }
 
-/* CONTENEDOR QR */
 #contenedorQR {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1em auto 2em auto; /* margen inferior más grande para espacio del mensaje */
+  margin: 1em auto 2em auto;
   padding: 18px;
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
@@ -74,18 +73,15 @@ body {
   transform: translate(4px, 4px);
 }
 
-/* MENSAJE FUERA DEL FLUJO */
 .feedback {
   position: absolute;
   bottom: 6px;
   left: 0;
   right: 0;
   text-align: center;
-
   font-size: 14px;
   font-weight: bold;
   color: #2e7d32;
-
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
@@ -96,7 +92,6 @@ body {
   transform: translateY(0);
 }
 
-/* FORMULARIO */
 .formulario {
   background-color: rgba(240,240,240,0.9);
   margin: 1.5em auto;
@@ -105,8 +100,7 @@ body {
   max-width: 600px;
 }
 
-.formulario input,
-.formulario select {
+.formulario input {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -129,7 +123,6 @@ button {
 </style>
 
 <script>
-
 const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 
@@ -147,11 +140,9 @@ function copiarDireccion() {
   const feedback = document.getElementById("feedbackQR");
   const contenedor = document.getElementById("contenedorQR");
 
-  // Expandir contenedor para mensaje
   contenedor.style.paddingBottom = "40px";
   feedback.classList.add("visible");
 
-  // Ocultar mensaje después de 2s y restaurar padding
   setTimeout(() => {
     feedback.classList.remove("visible");
     contenedor.style.paddingBottom = "18px";
@@ -225,7 +216,6 @@ window.onload = function() {
   document.getElementById("pedidoInput").value = generarPedidoID();
   document.getElementById("fechaPedido").value = obtenerFechaHora();
 }
-
 </script>
 
 </head>
@@ -237,26 +227,32 @@ Comprar el libro – La Venganza de Mercurio<br>
 con Bitcoin Cash (BCH)
 </div>
 
+<!-- PASO 1: Elección de formato -->
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
-<p>
-eBook: 5 €<br>
-Tapa blanda: 15 €<br>
-Tapa dura: 20 €
-</p>
+
+<select id="formato" onchange="actualizarCamposEnvio()" required>
+<option value="">Seleccione</option>
+<option value="ebook">eBook (5€)</option>
+<option value="blanda">Tapa blanda (15€)</option>
+<option value="dura">Tapa dura (20€)</option>
+</select>
+
 <p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
+<!-- PASO 2: Pago -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
+
 <p>
 Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera.<br>
 También puede escanearlo si lo prefiere.
 </p>
+
 <p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
 
-<!-- CONTENEDOR QR CON FEEDBACK -->
 <div id="contenedorQR" class="boton-wrapper">
   <div class="qr-boton" onclick="copiarDireccion()">
     <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
@@ -266,16 +262,19 @@ También puede escanearlo si lo prefiere.
   </div>
 </div>
 
-<!-- PASO 3: FORMULARIO -->
+<!-- PASO 3: Envío del pedido -->
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
+
 <p>
 Rellene el formulario y pulse "Comprar con Bitcoin Cash (BCH)".
 </p>
+
 <p>
 Después, pulse "Copiar mensaje" y envíelo por email a:<br>
 <strong>lavenganzademercurio@gmail.com</strong>
 </p>
+
 <p>
 Le confirmaremos la recepción y el envío de su pedido.
 </p>
@@ -285,14 +284,6 @@ Le confirmaremos la recepción y el envío de su pedido.
 
 <input type="hidden" id="pedidoInput">
 <input type="hidden" id="fechaPedido">
-
-<label>Formato</label>
-<select id="formato" onchange="actualizarCamposEnvio()" required>
-<option value="">Seleccione</option>
-<option value="ebook">eBook (5€)</option>
-<option value="blanda">Tapa blanda (15€)</option>
-<option value="dura">Tapa dura (20€)</option>
-</select>
 
 <label>Nombre</label>
 <input type="text" id="nombre">

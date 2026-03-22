@@ -35,7 +35,7 @@ body {
 
 .boton-wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   margin: 1em auto;
   padding: 18px;
@@ -69,6 +69,20 @@ body {
 
 .qr-boton:active {
   transform: translate(4px, 4px);
+}
+
+/* FEEDBACK VISUAL */
+.feedback {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2e7d32;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.feedback.visible {
+  opacity: 1;
 }
 
 .formulario {
@@ -117,7 +131,13 @@ function obtenerFechaHora() {
 
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS);
-  alert("Dirección copiada. Ahora puedes pegarla en tu cartera.");
+
+  const feedback = document.getElementById("feedbackQR");
+  feedback.classList.add("visible");
+
+  setTimeout(() => {
+    feedback.classList.remove("visible");
+  }, 2000);
 }
 
 function actualizarCamposEnvio() {
@@ -208,7 +228,6 @@ Comprar el libro – La Venganza de Mercurio<br>
 con Bitcoin Cash (BCH)
 </div>
 
-<!-- PASO 1 -->
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
 
@@ -223,7 +242,6 @@ Todos los precios incluyen gastos de envío.
 </p>
 </div>
 
-<!-- PASO 2 -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
 
@@ -241,9 +259,12 @@ Introduzca en su billetera el importe correspondiente en euros.
   <div class="qr-boton" onclick="copiarDireccion()">
     <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
   </div>
+
+  <div id="feedbackQR" class="feedback">
+    ✔ Dirección copiada
+  </div>
 </div>
 
-<!-- PASO 3 -->
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
 

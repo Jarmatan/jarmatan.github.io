@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="es-ES">
 <head>
-  <meta charset="utf-8">
-  <title>Donaciones – La Venganza de Mercurio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<title>Donaciones – La Venganza de Mercurio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 
-  <!-- Enlaces a los archivos externos -->
-  <link rel="stylesheet" href="estilos.css">
-  <script src="funciones.js" defer></script>
+<link rel="stylesheet" href="estilos.css">
+<script src="funciones.js"></script>
 </head>
 
 <body>
 
-  <div class="bloque">
-    <p>
-      Si desea apoyar este proyecto y a su autor, puede hacerlo mediante donaciones en
-      <strong>Bitcoin Cash (BCH)</strong>. Esta página pretende también servir como una breve introducción práctica al uso de esta criptodivisa.
-    </p>
-  </div>
+<div class="bloque">
+  <p>
+    Si desea apoyar este proyecto y a su autor, puede hacerlo mediante donaciones en
+    <strong>Bitcoin Cash (BCH)</strong>. Esta página pretende también servir como una
+    breve introducción práctica al uso de esta criptodivisa.
+  </p>
+</div>
 
-  <div class="qr-bloque" id="contenedorQR">
-    <div class="qr-boton" onclick="copiarDireccion()">
-      <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
-    </div>
-    <div id="feedbackQR">Dirección copiada</div>
+<!-- QR Donaciones -->
+<div class="boton-wrapper" style="padding: 0; max-width: 255px;">
+  <div class="qr-boton" onclick="copiarDireccionDonaciones()">
+    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+    <div id="feedbackQRDonaciones">Dirección copiada</div>
   </div>
+</div>
 
-  <div class="boton-wrapper">
-    <a class="boton-comunidad" href="index.html">Comunidad</a>
-  </div>
+<!-- Botón Comunidad -->
+<div class="boton-wrapper">
+  <a class="boton-comunidad" href="index.html">Comunidad</a>
+</div>
 
 </body>
 </html>

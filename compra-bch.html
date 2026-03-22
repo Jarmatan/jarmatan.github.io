@@ -43,7 +43,6 @@ body {
   max-width: 260px;
   position: relative;
   padding: 18px;
-  transition: padding-bottom 0.25s ease;
 }
 
 .qr-boton {
@@ -57,9 +56,7 @@ body {
     6px 6px 10px rgba(0,0,0,0.45),
     0 0 8px rgba(0,0,0,0.25),
     inset 0 1px 0 rgba(255,255,255,0.3);
-  transition: all 0.15s ease;
   text-align: center;
-  white-space: normal;
   margin: 0 auto;
   padding: 12px;
 }
@@ -67,11 +64,6 @@ body {
 .qr-boton img {
   width: 100%;
   display: block;
-  pointer-events: none;
-}
-
-.qr-boton:active {
-  transform: translate(4px,4px);
 }
 
 #feedbackQR {
@@ -105,16 +97,8 @@ textarea {
   padding: 8px;
   box-sizing: border-box;
   background-color: #fff;
-  transition: background-color 0.3s ease;
-}
-
-/* 🔴 CLAVE: eliminar verde automático del navegador */
-.formulario input:valid,
-.formulario input:invalid,
-.formulario textarea:valid,
-.formulario textarea:invalid {
-  background-color: #fff !important;
-  box-shadow: none !important;
+  transition: all 0.3s ease;
+  background-clip: padding-box; /* 🔴 importante */
 }
 
 textarea {
@@ -135,14 +119,7 @@ textarea {
     6px 6px 10px rgba(0,0,0,0.45),
     0 0 8px rgba(0,0,0,0.25),
     inset 0 1px 0 rgba(255,255,255,0.3);
-  text-align: center;
-  white-space: normal;
   height: 70px;
-  line-height: 1.3em;
-}
-
-.boton-formulario:active {
-  transform: translate(4px,4px);
 }
 
 .direccion-envio {
@@ -172,20 +149,16 @@ function obtenerFechaHora() {
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
     const feedback = document.getElementById("feedbackQR");
-    const contenedor = document.getElementById("contenedorQR");
-    contenedor.style.paddingBottom = "40px";
     feedback.classList.add("visible");
     setTimeout(() => {
       feedback.classList.remove("visible");
-      contenedor.style.paddingBottom = "18px";
     }, 2000);
   });
 }
 
 function copiarEmail() {
-  navigator.clipboard.writeText(EMAIL_CONTACTO).then(() => {
-    alert("Email copiado: " + EMAIL_CONTACTO);
-  });
+  navigator.clipboard.writeText(EMAIL_CONTACTO);
+  alert("Email copiado: " + EMAIL_CONTACTO);
 }
 
 function actualizarCamposEnvio() {
@@ -198,22 +171,27 @@ function actualizarCamposEnvio() {
     `${formato} ${PRECIOS[formato] || ''}€`;
 
   document.getElementById("formato").style.backgroundColor =
-    formato ? COLORES_FORMATO[formato] : "#ffffffcc";
+    formato ? COLORES_FORMATO[formato] : "#fff";
 
   actualizarColoresCampos();
 }
 
+/* 🔴 SOLUCIÓN DEFINITIVA */
 function actualizarColoresCampos() {
   const formato = document.getElementById("formato").value;
   const color = COLORES_FORMATO[formato];
 
   document.querySelectorAll(".formulario input, .formulario textarea")
     .forEach(campo => {
+
       if (campo.value.trim() !== "" && color) {
-        campo.style.backgroundColor = color;
+        campo.style.backgroundColor = "#fff";
+        campo.style.boxShadow = `inset 0 0 0 1000px ${color}`;
       } else {
         campo.style.backgroundColor = "#fff";
+        campo.style.boxShadow = "none";
       }
+
     });
 }
 
@@ -258,7 +236,6 @@ ${pais}
   }
 
   document.getElementById("mensajePedido").value = mensaje;
-
   actualizarColoresCampos();
 }
 
@@ -289,7 +266,6 @@ Comprar el libro – La Venganza de Mercurio<br>
 con Bitcoin Cash (BCH)
 </div>
 
-<!-- PASO 1 -->
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
 <select id="formato" onchange="actualizarCamposEnvio()" required>
@@ -301,35 +277,20 @@ con Bitcoin Cash (BCH)
 <p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
-<!-- PASO 2 -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
-<p>
-Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera. También puede escanearlo si lo prefiere.
-</p>
-<p>Introduzca en su billetera el importe correspondiente en euros.</p>
+<p>Pulse sobre el código QR para copiar la dirección.</p>
 </div>
 
-<div class="boton-wrapper" id="contenedorQR">
+<div class="boton-wrapper">
   <div class="qr-boton" onclick="copiarDireccion()">
-    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+    <img src="QR-BCH.jpg">
   </div>
-  <div id="feedbackQR">Dirección copiada al portapapeles</div>
+  <div id="feedbackQR">Dirección copiada</div>
 </div>
 
-<!-- PASO 3 -->
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
-<p>
-Rellene el formulario y pulse el botón de Generar el Pedido.
-</p>
-<p>
-Después, pulse el botón de copiar el pedido y envíelo por email a:<br>
-<strong>lavenganzademercurio@gmail.com</strong>
-</p>
-<p>
-Le confirmaremos la recepción y el envío de su pedido.
-</p>
 </div>
 
 <div class="formulario">
@@ -359,8 +320,8 @@ Le confirmaremos la recepción y el envío de su pedido.
 <textarea id="mensajePedido"></textarea>
 <button class="boton-formulario" onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
 <button class="boton-formulario" onclick="copiarEmail()">
-  Pulse aquí para copiar la dirección<br>
-  lavenganzademercurio@gmail.com
+Pulse aquí para copiar la dirección<br>
+lavenganzademercurio@gmail.com
 </button>
 
 </div>

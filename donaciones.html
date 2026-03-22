@@ -35,38 +35,63 @@
     }
 
     .qr-bloque {
-      background-color: rgba(240,240,240,0.85);
       margin: 1em auto;
-      padding: 1em;
-      border-radius: 10px;
-      max-width: 255px; /* reducido un 15% respecto a 300px */
-      font-size: 18px;
-      line-height: 1.7;
+      padding: 18px;
+      max-width: 255px;
+      border-radius: 12px;
+      background-color: rgba(240,240,240,0.9);
+      position: relative;
       text-align: center;
-      font-family: Georgia, serif;
     }
 
-    .qr-bloque img {
+    .qr-boton {
+      cursor: pointer;
+      border-radius: 12px;
+      border: 1px solid #aaa;
+      padding: 12px;
+      background: linear-gradient(to bottom, #ffffff, #e4e4e4);
+      box-shadow:
+        6px 6px 10px rgba(0,0,0,0.45),
+        0 0 8px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: all 0.15s ease;
+    }
+
+    .qr-boton img {
       width: 100%;
-      max-width: 255px; /* imagen proporcional al contenedor */
-      height: auto;
       display: block;
-      margin: 0 auto;
     }
 
-    /* CONTENEDOR PARA BOTÓN COMUNIDAD AL FINAL */
+    .qr-boton:active {
+      transform: translate(4px,4px);
+    }
+
+    #feedbackQR {
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: green;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #feedbackQR.visible {
+      opacity: 1;
+    }
+
     .boton-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 2em auto;
       padding: 12px;
-      background-color: rgba(200,200,200,0.9); /* gris opaco para sombra visible */
+      background-color: rgba(200,200,200,0.9);
       border-radius: 12px;
       max-width: 220px;
     }
 
-    /* BOTÓN COMUNIDAD ESTILO 3D */
     .boton-comunidad {
       display: flex;
       justify-content: center;
@@ -82,13 +107,10 @@
       border-radius: 10px;
       font-weight: bold;
       text-decoration: none;
-
-      /* Sombra 3D visible */
       box-shadow:
         6px 6px 12px rgba(0,0,0,0.48),
         0 0 10px rgba(0,0,0,0.25),
         inset 0 1px 0 rgba(255,255,255,0.3);
-
       transition: all 0.15s ease;
     }
 
@@ -116,23 +138,33 @@
     </p>
   </div>
 
-  <!-- Código QR BCH -->
   <div class="qr-bloque">
-    <div style="font-size: 18px; color: #111; font-weight: bold; margin: 0 0 0.7em 0;">
-      Dirección de Bitcoin Cash
+    <div class="qr-boton" onclick="copiarDireccion()">
+      <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
     </div>
-
-    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
-
-    <div style="font-size: 18px; color: #111; margin-top: 0.7em; word-break: break-word;">
-      bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5
-    </div>
+    <div id="feedbackQR">Dirección copiada</div>
   </div>
 
-  <!-- BOTÓN COMUNIDAD AL FINAL -->
   <div class="boton-wrapper">
     <a class="boton-comunidad" href="index.html">Comunidad</a>
   </div>
+
+  <script>
+    const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
+
+    function copiarDireccion() {
+      navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
+        const feedback = document.getElementById("feedbackQR");
+        const contenedor = document.querySelector(".qr-bloque");
+        contenedor.style.paddingBottom = "40px";
+        feedback.classList.add("visible");
+        setTimeout(() => {
+          feedback.classList.remove("visible");
+          contenedor.style.paddingBottom = "18px";
+        }, 2000);
+      });
+    }
+  </script>
 
 </body>
 </html>

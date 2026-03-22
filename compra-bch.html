@@ -21,7 +21,6 @@ body {
   font-weight: bold;
   margin: 2em auto 1em auto;
   color: #fff;
-  line-height: 1.3em;
 }
 
 .bloque {
@@ -30,13 +29,11 @@ body {
   padding: 1.2em;
   border-radius: 12px;
   max-width: 600px;
-  line-height: 1.5em;
 }
 
 .boton-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin: 1em auto;
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
@@ -46,36 +43,26 @@ body {
 }
 
 .qr-boton {
-  display: block;
   max-width: 220px;
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
   border-radius: 14px;
   border: 1px solid #aaa;
   cursor: pointer;
-  box-shadow:
-    6px 6px 10px rgba(0,0,0,0.45),
-    0 0 8px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.3);
-  text-align: center;
-  margin: 0 auto;
   padding: 12px;
 }
 
 .qr-boton img {
   width: 100%;
-  display: block;
 }
 
 #feedbackQR {
   position: absolute;
   bottom: 8px;
-  left: 0;
-  right: 0;
+  width: 100%;
   text-align: center;
   font-size: 14px;
   color: green;
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 #feedbackQR.visible {
@@ -98,7 +85,7 @@ textarea {
   box-sizing: border-box;
   background-color: #fff;
   transition: all 0.3s ease;
-  background-clip: padding-box; /* 🔴 importante */
+  background-clip: padding-box;
 }
 
 textarea {
@@ -115,10 +102,6 @@ textarea {
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
   border-radius: 14px;
   border: 1px solid #aaa;
-  box-shadow:
-    6px 6px 10px rgba(0,0,0,0.45),
-    0 0 8px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.3);
   height: 70px;
 }
 
@@ -132,10 +115,11 @@ const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
 
+/* 🎨 COLORES MÁS SUAVES */
 const COLORES_FORMATO = {
-  ebook: "#66cc66",
-  blanda: "#3366ff",
-  dura: "#ffcc33"
+  ebook: "#b7e4b7",
+  blanda: "#b3c7ff",
+  dura: "#ffe599"
 };
 
 function generarPedidoID() {
@@ -150,9 +134,7 @@ function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
     const feedback = document.getElementById("feedbackQR");
     feedback.classList.add("visible");
-    setTimeout(() => {
-      feedback.classList.remove("visible");
-    }, 2000);
+    setTimeout(() => feedback.classList.remove("visible"), 2000);
   });
 }
 
@@ -183,15 +165,11 @@ function actualizarColoresCampos() {
 
   document.querySelectorAll(".formulario input, .formulario textarea")
     .forEach(campo => {
-
       if (campo.value.trim() !== "" && color) {
-        campo.style.backgroundColor = "#fff";
         campo.style.boxShadow = `inset 0 0 0 1000px ${color}`;
       } else {
-        campo.style.backgroundColor = "#fff";
         campo.style.boxShadow = "none";
       }
-
     });
 }
 
@@ -266,6 +244,7 @@ Comprar el libro – La Venganza de Mercurio<br>
 con Bitcoin Cash (BCH)
 </div>
 
+<!-- PASO 1 -->
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
 <select id="formato" onchange="actualizarCamposEnvio()" required>
@@ -277,9 +256,14 @@ con Bitcoin Cash (BCH)
 <p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
+<!-- PASO 2 RESTAURADO -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
-<p>Pulse sobre el código QR para copiar la dirección.</p>
+<p>
+Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera.<br>
+También puede escanearlo si lo prefiere.
+</p>
+<p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
 
 <div class="boton-wrapper">
@@ -289,8 +273,19 @@ con Bitcoin Cash (BCH)
   <div id="feedbackQR">Dirección copiada</div>
 </div>
 
+<!-- PASO 3 RESTAURADO -->
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
+<p>
+Rellene el formulario y pulse el botón de Generar el Pedido.
+</p>
+<p>
+Después, pulse el botón de copiar el pedido y envíelo por email a:<br>
+<strong>lavenganzademercurio@gmail.com</strong>
+</p>
+<p>
+Le confirmaremos la recepción y el envío de su pedido.
+</p>
 </div>
 
 <div class="formulario">

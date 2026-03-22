@@ -111,6 +111,8 @@ button {
   width: 100%;
   padding: 12px;
   font-size: 18px;
+  margin-top: 8px;
+  cursor: pointer;
 }
 
 .direccion-envio {
@@ -144,13 +146,37 @@ function copiarDireccion() {
   });
 }
 
+function copiarEmail() {
+  navigator.clipboard.writeText(EMAIL_CONTACTO).then(() => {
+    alert("Email copiado: " + EMAIL_CONTACTO);
+  });
+}
+
 function actualizarCamposEnvio() {
-  const formato = document.getElementById("formato").value;
+  const formatoSelect = document.getElementById("formato");
+  const formato = formatoSelect.value;
   const envio = document.getElementById("direccionEnvio");
+
+  // Mostrar u ocultar campos de envío
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 
-  // actualizar el campo oculto de formato y precio en el formulario
+  // Actualizar campo oculto con formato y precio
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
+
+  // Cambiar color de fondo según opción
+  switch(formato) {
+    case "ebook":
+      formatoSelect.style.backgroundColor = "#d0f0c0"; // verde suave
+      break;
+    case "blanda":
+      formatoSelect.style.backgroundColor = "#f0e68c"; // amarillo suave
+      break;
+    case "dura":
+      formatoSelect.style.backgroundColor = "#ffcccb"; // rojo suave
+      break;
+    default:
+      formatoSelect.style.backgroundColor = ""; // color por defecto
+  }
 }
 
 function generarMensaje() {
@@ -221,10 +247,10 @@ con Bitcoin Cash (BCH)
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
 <select id="formato" onchange="actualizarCamposEnvio()" required>
-<option value="">Seleccione</option>
-<option value="ebook">eBook (5€)</option>
-<option value="blanda">Tapa blanda (17€)</option>
-<option value="dura">Tapa dura (20€)</option>
+  <option value="">Seleccione</option>
+  <option value="ebook">eBook (5€)</option>
+  <option value="blanda">Tapa blanda (17€)</option>
+  <option value="dura">Tapa dura (20€)</option>
 </select>
 <p>Todos los precios incluyen gastos de envío.</p>
 </div>
@@ -286,7 +312,10 @@ Le confirmaremos la recepción y el envío de su pedido.
 
 <button onclick="generarMensaje()">Generar el pedido</button>
 <textarea id="mensajePedido"></textarea>
-<button onclick="copiarMensaje()">Copiar mensaje</button>
+<button onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
+
+<!-- Botón para copiar email -->
+<button onclick="copiarEmail()">Pulse aquí para copiar dirección lavenganzademercurio@gmail.com</button>
 
 </div>
 

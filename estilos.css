@@ -1,4 +1,4 @@
-/* ===== Estilos generales ===== */
+/* General */
 body {
   font-family: Georgia, serif;
   margin: 0;
@@ -6,11 +6,8 @@ body {
   background: url('portadaWEB.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #111;
-  font-size: 18px;
-  line-height: 1.7;
 }
 
-/* ===== Título principal ===== */
 .titulo-principal {
   text-align: center;
   font-size: 36px;
@@ -19,70 +16,21 @@ body {
   color: #fff;
 }
 
-/* ===== Bloques de contenido ===== */
+/* Bloques de contenido */
 .bloque {
   background-color: rgba(240,240,240,0.9);
   margin: 1.2em auto;
   padding: 1.2em;
   border-radius: 12px;
   max-width: 600px;
-  text-align: justify;
 }
 
-/* ===== Botones y contenedores ===== */
-.boton-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 1em auto;
-  background-color: rgba(200,200,200,0.9);
-  border-radius: 14px;
-  max-width: 260px;
-  position: relative;
-  padding: 18px;
+.bloque p {
+  margin: 0;
+  padding: 0;
 }
 
-/* ===== Botón QR ===== */
-.qr-boton {
-  max-width: 220px;
-  background: linear-gradient(to bottom, #ffffff, #e4e4e4);
-  border-radius: 14px;
-  border: 1px solid #aaa;
-  cursor: pointer;
-  padding: 12px;
-  box-shadow:
-    6px 6px 10px rgba(0,0,0,0.45),
-    0 0 8px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.3);
-  transition: all 0.15s ease;
-  text-align: center;
-}
-
-.qr-boton img {
-  width: 100%;
-  display: block;
-}
-
-.qr-boton:active {
-  transform: translate(4px,4px);
-}
-
-/* Mensaje "Dirección copiada" */
-#feedbackQR {
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  color: green;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-#feedbackQR.visible {
-  opacity: 1;
-}
-
-/* ===== Formulario ===== */
+/* Formularios */
 .formulario {
   background-color: rgba(240,240,240,0.9);
   margin: 1.5em auto;
@@ -114,7 +62,7 @@ textarea {
   resize: none;
 }
 
-/* Botones del formulario */
+/* Botones de formulario */
 .boton-formulario {
   width: 100%;
   padding: 12px;
@@ -136,12 +84,67 @@ textarea {
   transform: translate(4px,4px);
 }
 
-/* Dirección de envío oculta inicialmente */
 .direccion-envio {
   display: none;
 }
 
-/* ===== Botón Comunidad ===== */
+/* Botón wrapper general (compras QR / comunidad) */
+.boton-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1em auto;
+  background-color: rgba(200,200,200,0.9);
+  border-radius: 14px;
+  max-width: 260px;
+  position: relative;
+  padding: 18px;
+}
+
+/* QR Botón */
+.qr-boton {
+  max-width: 220px;
+  background: linear-gradient(to bottom, #ffffff, #e4e4e4);
+  border-radius: 14px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  padding: 12px;
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  transition: all 0.15s ease;
+  position: relative;
+  text-align: center;
+}
+
+.qr-boton img {
+  width: 100%;
+  display: block;
+}
+
+.qr-boton:active {
+  transform: translate(4px,4px);
+}
+
+/* Feedback de copia */
+#feedbackQR,
+#feedbackQRDonaciones {
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: green;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#feedbackQR.visible,
+#feedbackQRDonaciones.visible {
+  opacity: 1;
+}
+
+/* Botón comunidad */
 .boton-comunidad {
   display: flex;
   justify-content: center;

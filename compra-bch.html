@@ -173,7 +173,8 @@ function copiarEmail() {
   alert("Email copiado: " + EMAIL_CONTACTO);
 }
 
-function obtenerColorActual() {
+// 🔴 FUNCIÓN CLAVE: obtiene SIEMPRE el formato actual
+function getColorActual() {
   const formato = document.getElementById("formato").value;
   return COLORES_FORMATO[formato] || null;
 }
@@ -183,41 +184,47 @@ function actualizarCamposEnvio() {
   const envio = document.getElementById("direccionEnvio");
 
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-  document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 
+  document.getElementById("formatoPedido").value =
+    `${formato} ${PRECIOS[formato] || ''}€`;
+
+  // Color del select
   document.getElementById("formato").style.backgroundColor =
     formato ? COLORES_FORMATO[formato] : "#ffffffcc";
 
   actualizarColoresCampos();
 }
 
+// 🔴 ESTA ES LA CLAVE REAL
 function actualizarColoresCampos() {
-  const color = obtenerColorActual();
-  const campos = document.querySelectorAll(".formulario input, .formulario textarea");
+  const color = getColorActual();
 
-  campos.forEach(campo => {
-    if (campo.value.trim() !== "" && color) {
-      campo.style.backgroundColor = color;
-    } else {
-      campo.style.backgroundColor = "#fff";
-    }
-  });
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => {
+      if (campo.value.trim() !== "" && color) {
+        campo.style.backgroundColor = color;
+      } else {
+        campo.style.backgroundColor = "#fff";
+      }
+    });
 }
 
+// 🔴 LISTENERS SOLO UNA VEZ
 function inicializarEventos() {
-  const campos = document.querySelectorAll(".formulario input, .formulario textarea");
-
-  campos.forEach(campo => {
-    campo.addEventListener("input", actualizarColoresCampos);
-  });
+  document.querySelectorAll(".formulario input, .formulario textarea")
+    .forEach(campo => {
+      campo.addEventListener("input", actualizarColoresCampos);
+    });
 }
 
 function generarMensaje() {
   const pedido = document.getElementById("pedidoInput").value;
   const fecha = document.getElementById("fechaPedido").value;
   const formato = document.getElementById("formatoPedido").value;
+
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
+
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudad").value;
   const postal = document.getElementById("postal").value;
@@ -251,6 +258,8 @@ ${pais}
   }
 
   document.getElementById("mensajePedido").value = mensaje;
+
+  // 🔴 FORZAMOS actualización tras generar
   actualizarColoresCampos();
 }
 

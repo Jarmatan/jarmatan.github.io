@@ -49,7 +49,6 @@ body {
 .qr-boton {
   display: block;
   max-width: 220px;
-  padding: 12px;
   background: linear-gradient(to bottom, #ffffff, #e4e4e4);
   border-radius: 14px;
   border: 1px solid #aaa;
@@ -62,8 +61,7 @@ body {
   text-align: center;
   white-space: normal;
   margin: 0 auto;
-  height: 70px; /* altura uniforme */
-  line-height: 1.3em;
+  padding: 12px; /* tamaño del contenedor */
 }
 
 .qr-boton img {
@@ -128,7 +126,7 @@ textarea {
     inset 0 1px 0 rgba(255,255,255,0.3);
   text-align: center;
   white-space: normal;
-  height: 70px; /* altura uniforme igual que QR */
+  height: 70px;
   line-height: 1.3em;
 }
 
@@ -184,16 +182,16 @@ function actualizarCamposEnvio() {
 
   switch(formato) {
     case "ebook":
-      formatoSelect.style.backgroundColor = "#cce5cc"; // verde
+      formatoSelect.style.backgroundColor = "#66cc66"; // verde más fuerte
       break;
     case "blanda":
-      formatoSelect.style.backgroundColor = "#b3d9ff"; // azul
+      formatoSelect.style.backgroundColor = "#3399ff"; // azul más claro y distinguible
       break;
     case "dura":
       formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo
       break;
     default:
-      formatoSelect.style.backgroundColor = "#ffffffcc"; // blanco translúcido
+      formatoSelect.style.backgroundColor = "#ffffffcc";
   }
 }
 
@@ -260,7 +258,6 @@ Comprar el libro – La Venganza de Mercurio<br>
 con Bitcoin Cash (BCH)
 </div>
 
-<!-- PASO 1 -->
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
 <select id="formato" onchange="actualizarCamposEnvio()" required>
@@ -272,7 +269,6 @@ con Bitcoin Cash (BCH)
 <p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
-<!-- PASO 2 -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
 <p>
@@ -289,7 +285,6 @@ También puede escanearlo si lo prefiere.
   <div id="feedbackQR">Dirección copiada al portapapeles</div>
 </div>
 
-<!-- PASO 3 -->
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
 <p>
@@ -327,7 +322,6 @@ Le confirmaremos la recepción y el envío de su pedido.
 <input type="text" id="pais">
 </div>
 
-<!-- Botones con altura uniforme y ancho completo del formulario -->
 <button class="boton-formulario" onclick="generarMensaje()">Pulse aquí para generar el pedido</button>
 <textarea id="mensajePedido"></textarea>
 <button class="boton-formulario" onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>

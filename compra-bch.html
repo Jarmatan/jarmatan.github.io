@@ -120,6 +120,20 @@ button {
 .direccion-envio {
   display: none;
 }
+
+/* Resaltado visual del formato seleccionado */
+#formato {
+  padding: 6px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  background-color: #f8f8f8;
+  transition: background-color 0.25s ease;
+}
+
+#formato.resaltado {
+  background-color: #d0f0d0;
+}
 </style>
 
 <script>
@@ -153,6 +167,14 @@ function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+
+  // Resaltar visual del formato seleccionado
+  const selector = document.getElementById("formato");
+  if (formato !== "") {
+    selector.classList.add("resaltado");
+  } else {
+    selector.classList.remove("resaltado");
+  }
 }
 
 function generarMensaje() {
@@ -238,7 +260,7 @@ con Bitcoin Cash (BCH)
 <option value="dura">Tapa dura (20€)</option>
 </select>
 
-<p>Todos los precios incluyen los gastos de envío.</p>
+<p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
 <!-- PASO 2: Pago -->
@@ -246,13 +268,14 @@ con Bitcoin Cash (BCH)
 <p><strong>2. Realice el pago</strong></p>
 
 <p>
-Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera. También puede escanearlo si lo prefiere.
+Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera.<br>
+También puede escanearlo si lo prefiere.
 </p>
 
 <p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
 
-<div id="contenedorQR" class="boton-wrapper">
+<div id="contenedorQR">
   <div class="qr-boton" onclick="copiarDireccion()">
     <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
   </div>

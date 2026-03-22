@@ -145,21 +145,12 @@ textarea {
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
+const COLORES_FORMATO = { ebook: "#66cc66", blanda: "#3366ff", dura: "#ffcc33" };
 
-// Colores según formato
-const COLORES_FORMATO = {
-  ebook: "#66cc66",
-  blanda: "#3366ff",
-  dura: "#ffcc33"
-};
+let formatoActual = ""; // guardará el formato seleccionado
 
-function generarPedidoID() {
-  return 'MERC-' + Date.now();
-}
-
-function obtenerFechaHora() {
-  return new Date().toLocaleString();
-}
+function generarPedidoID() { return 'MERC-' + Date.now(); }
+function obtenerFechaHora() { return new Date().toLocaleString(); }
 
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
@@ -182,21 +173,37 @@ function copiarEmail() {
 
 function actualizarCamposEnvio() {
   const formatoSelect = document.getElementById("formato");
-  const formato = formatoSelect.value;
+  formatoActual = formatoSelect.value; // guardamos el formato seleccionado
   const envio = document.getElementById("direccionEnvio");
 
-  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-  document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
+  envio.style.display = (formatoActual === "blanda" || formatoActual === "dura") ? "block" : "none";
+  document.getElementById("formatoPedido").value = `${formatoActual} ${PRECIOS[formatoActual] || ''}€`;
 
-  // Color para el select
-  formatoSelect.style.backgroundColor = formato ? COLORES_FORMATO[formato] : "#ffffffcc";
+  // color del select
+  formatoSelect.style.backgroundColor = formatoActual ? COLORES_FORMATO[formatoActual] : "#ffffffcc";
 
-  // Actualizar colores de los campos según el valor introducido
+  // Actualizar colores de los campos rellenos al cambiar el formato
+  actualizarColoresCampos();
+}
+
+function actualizarColoresCampos() {
   const campos = document.querySelectorAll(".formulario input, .formulario textarea");
   campos.forEach(campo => {
-    campo.addEventListener('input', () => {
-      if(campo.value.trim() !== "" && formato) {
-        campo.style.backgroundColor = COLORES_FORMATO[formato];
+    if (campo.value.trim() !== "" && formatoActual) {
+      campo.style.backgroundColor = COLORES_FORMATO[formatoActual];
+    } else {
+      campo.style.backgroundColor = "#fff";
+    }
+  });
+}
+
+// Asignamos evento input a todos los campos para cambiar color al escribir
+function inicializarCampos() {
+  const campos = document.querySelectorAll(".formulario input, .formulario textarea");
+  campos.forEach(campo => {
+    campo.addEventListener("input", () => {
+      if (campo.value.trim() !== "" && formatoActual) {
+        campo.style.backgroundColor = COLORES_FORMATO[formatoActual];
       } else {
         campo.style.backgroundColor = "#fff";
       }
@@ -243,6 +250,7 @@ ${pais}
   }
 
   document.getElementById("mensajePedido").value = mensaje;
+  actualizarColoresCampos();
 }
 
 function copiarMensaje() {
@@ -255,6 +263,7 @@ function copiarMensaje() {
 window.onload = function() {
   document.getElementById("pedidoInput").value = generarPedidoID();
   document.getElementById("fechaPedido").value = obtenerFechaHora();
+  inicializarCampos();
 }
 </script>
 

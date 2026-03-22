@@ -121,7 +121,6 @@ button {
   display: none;
 }
 
-/* Resaltado visual del formato seleccionado */
 #formato {
   padding: 6px;
   font-size: 16px;
@@ -137,8 +136,14 @@ button {
 </style>
 
 <script>
-const BCH_ADDRESS = "TU_DIRECCION_BCH_AQUI";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
+
+// Definimos los precios
+const PRECIOS = {
+  ebook: 5,
+  blanda: 17,
+  dura: 20
+};
 
 function generarPedidoID() {
   return 'MERC-' + Date.now();
@@ -149,8 +154,6 @@ function obtenerFechaHora() {
 }
 
 function copiarDireccion() {
-  navigator.clipboard.writeText(BCH_ADDRESS);
-
   const feedback = document.getElementById("feedbackQR");
   const contenedor = document.getElementById("contenedorQR");
 
@@ -168,7 +171,7 @@ function actualizarCamposEnvio() {
   const envio = document.getElementById("direccionEnvio");
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 
-  // Resaltar visual del formato seleccionado
+  // Resaltar formato seleccionado
   const selector = document.getElementById("formato");
   if (formato !== "") {
     selector.classList.add("resaltado");
@@ -190,6 +193,8 @@ function generarMensaje() {
   const postal = document.getElementById("postal").value;
   const pais = document.getElementById("pais").value;
 
+  const precioEUR = PRECIOS[formato];
+
   let mensaje =
 `Pedido libro "La Venganza de Mercurio"
 
@@ -199,8 +204,8 @@ ${pedido}
 Fecha y hora:
 ${fecha}
 
-Formato:
-${formato}
+Formato y precio:
+${formato.charAt(0).toUpperCase() + formato.slice(1)} ${precioEUR}€
 
 Nombre:
 ${nombre}
@@ -220,9 +225,6 @@ ${pais}
 
 `;
   }
-
-  mensaje += `Dirección BCH:
-${BCH_ADDRESS}`;
 
   document.getElementById("mensajePedido").value = mensaje;
 }
@@ -256,7 +258,7 @@ con Bitcoin Cash (BCH)
 <select id="formato" onchange="actualizarCamposEnvio()" required>
 <option value="">Seleccione</option>
 <option value="ebook">eBook (5€)</option>
-<option value="blanda">Tapa blanda (15€)</option>
+<option value="blanda">Tapa blanda (17€)</option>
 <option value="dura">Tapa dura (20€)</option>
 </select>
 

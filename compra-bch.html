@@ -46,7 +46,7 @@ body {
   transition: padding-bottom 0.25s ease;
 }
 
-.qr-boton {
+.qr-boton, button.copiador {
   display: block;
   max-width: 220px;
   padding: 12px;
@@ -54,6 +54,7 @@ body {
   border-radius: 14px;
   border: 1px solid #aaa;
   cursor: pointer;
+  text-align: center;
   box-shadow:
     6px 6px 10px rgba(0,0,0,0.45),
     0 0 8px rgba(0,0,0,0.25),
@@ -67,23 +68,24 @@ body {
   pointer-events: none;
 }
 
-.qr-boton:active {
+.qr-boton:active, button.copiador:active {
   transform: translate(4px,4px);
 }
 
-#feedbackQR {
+#feedbackQR, #feedbackMensaje, #feedbackEmail {
   position: absolute;
-  bottom: 8px;
+  bottom: 10px;
   left: 0;
   right: 0;
   text-align: center;
   font-size: 14px;
   color: green;
+  font-weight: bold;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-#feedbackQR.visible {
+.feedback-visible {
   opacity: 1;
 }
 
@@ -100,6 +102,9 @@ body {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
+  background-color: #e8f5e9; /* fondo verdoso */
+  border: 1px solid #aaa;
+  border-radius: 6px;
 }
 
 textarea {
@@ -111,6 +116,8 @@ button {
   width: 100%;
   padding: 12px;
   font-size: 18px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .direccion-envio {
@@ -131,16 +138,33 @@ function obtenerFechaHora() {
   return new Date().toLocaleString();
 }
 
+function mostrarFeedback(idFeedback, contenedor = null) {
+  const feedback = document.getElementById(idFeedback);
+  if(contenedor) contenedor.style.paddingBottom = "50px";
+  feedback.classList.add("feedback-visible");
+  setTimeout(() => {
+    feedback.classList.remove("feedback-visible");
+    if(contenedor) contenedor.style.paddingBottom = "18px";
+  }, 2000);
+}
+
 function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
-    const feedback = document.getElementById("feedbackQR");
     const contenedor = document.getElementById("contenedorQR");
-    contenedor.style.paddingBottom = "40px";
-    feedback.classList.add("visible");
-    setTimeout(() => {
-      feedback.classList.remove("visible");
-      contenedor.style.paddingBottom = "18px";
-    }, 2000);
+    mostrarFeedback("feedbackQR", contenedor);
+  });
+}
+
+function copiarMensaje() {
+  const texto = document.getElementById("mensajePedido");
+  texto.select();
+  document.execCommand("copy");
+  mostrarFeedback("feedbackMensaje");
+}
+
+function copiarEmail() {
+  navigator.clipboard.writeText(EMAIL_CONTACTO).then(() => {
+    mostrarFeedback("feedbackEmail");
   });
 }
 
@@ -148,8 +172,6 @@ function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-
-  // actualizar el campo oculto de formato y precio en el formulario
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 }
 
@@ -159,7 +181,6 @@ function generarMensaje() {
   const formato = document.getElementById("formatoPedido").value;
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
-
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudad").value;
   const postal = document.getElementById("postal").value;
@@ -195,13 +216,6 @@ ${pais}
   document.getElementById("mensajePedido").value = mensaje;
 }
 
-function copiarMensaje() {
-  const texto = document.getElementById("mensajePedido");
-  texto.select();
-  document.execCommand("copy");
-  alert("Pedido copiado. Envíalo a: " + EMAIL_CONTACTO);
-}
-
 window.onload = function() {
   document.getElementById("pedidoInput").value = generarPedidoID();
   document.getElementById("fechaPedido").value = obtenerFechaHora();
@@ -226,14 +240,15 @@ con Bitcoin Cash (BCH)
 <option value="blanda">Tapa blanda (17€)</option>
 <option value="dura">Tapa dura (20€)</option>
 </select>
-<p>Todos los precios incluyen los gastos de envío.</p>
+<p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
 <!-- PASO 2 -->
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
 <p>
-Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera. También puede escanearlo si lo prefiere.
+Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera.<br>
+También puede escanearlo si lo prefiere.
 </p>
 <p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
@@ -249,10 +264,10 @@ Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cart
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
 <p>
-Rellene el formulario y pulse en el botón de Generar el Pedido.
+Rellene el formulario y pulse "Comprar con Bitcoin Cash (BCH)".
 </p>
 <p>
-Después, pulse el botón de Copiar el Pedido y envíelo por email a:<br>
+Después, pulse "Copiar mensaje" y envíelo por email a:<br>
 <strong>lavenganzademercurio@gmail.com</strong>
 </p>
 <p>
@@ -283,9 +298,19 @@ Le confirmaremos la recepción y el envío de su pedido.
 <input type="text" id="pais">
 </div>
 
-<button onclick="generarMensaje()">Pulse aquí para Generar el Pedido</button>
+<button onclick="generarMensaje()">Comprar con Bitcoin Cash (BCH)</button>
+
 <textarea id="mensajePedido"></textarea>
-<button onclick="copiarMensaje()">Pulse aquí para Copiar el Pedido</button>
+
+<div class="boton-wrapper" style="position: relative;">
+  <button class="copiador" onclick="copiarMensaje()">Copiar mensaje</button>
+  <div id="feedbackMensaje">Mensaje copiado</div>
+</div>
+
+<div class="boton-wrapper" style="position: relative;">
+  <button class="copiador" onclick="copiarEmail()">Copiar la dirección de email<br><strong>lavenganzademercurio@gmail.com</strong></button>
+  <div id="feedbackEmail">Email copiado</div>
+</div>
 
 </div>
 

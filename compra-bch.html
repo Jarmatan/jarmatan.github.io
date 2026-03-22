@@ -108,7 +108,7 @@ textarea {
 
 textarea {
   height: 220px;
-  margin: 10px 0; /* distancia uniforme superior e inferior */
+  margin: 10px 0;
 }
 
 .boton-formulario {
@@ -175,24 +175,32 @@ function actualizarCamposEnvio() {
   const formatoSelect = document.getElementById("formato");
   const formato = formatoSelect.value;
   const envio = document.getElementById("direccionEnvio");
-
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 
+  let colorCampo;
   switch(formato) {
     case "ebook":
-      formatoSelect.style.backgroundColor = "#66cc66"; // verde intenso
+      colorCampo = "#66cc66"; // verde
       break;
     case "blanda":
-      formatoSelect.style.backgroundColor = "#3366ff"; // azul intenso
+      colorCampo = "#3366ff"; // azul
       break;
     case "dura":
-      formatoSelect.style.backgroundColor = "#ffcc33"; // amarillo intenso
+      colorCampo = "#ffcc33"; // amarillo
       break;
     default:
-      formatoSelect.style.backgroundColor = "#ffffffcc";
+      colorCampo = "#ffffffcc";
   }
+
+  // Cambiar color de fondo del select
+  formatoSelect.style.backgroundColor = colorCampo;
+
+  // Cambiar color de fondo de todos los campos del formulario
+  const campos = document.querySelectorAll(".formulario input, .formulario textarea");
+  campos.forEach(campo => {
+    campo.style.backgroundColor = colorCampo;
+  });
 }
 
 function generarMensaje() {
@@ -201,7 +209,6 @@ function generarMensaje() {
   const formato = document.getElementById("formatoPedido").value;
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
-
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudad").value;
   const postal = document.getElementById("postal").value;

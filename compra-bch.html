@@ -113,8 +113,14 @@ button {
   font-size: 18px;
   margin-top: 8px;
   cursor: pointer;
+  text-align: center;
+  white-space: normal; /* permite que el texto se divida en varias líneas */
 }
 
+#btnEmail {
+  padding: 16px 12px;
+  line-height: 1.3em;
+}
 .direccion-envio {
   display: none;
 }
@@ -163,19 +169,19 @@ function actualizarCamposEnvio() {
   // Actualizar campo oculto con formato y precio
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
 
-  // Cambiar color de fondo según opción
+  // Cambiar color de fondo según opción (paleta armoniosa)
   switch(formato) {
     case "ebook":
-      formatoSelect.style.backgroundColor = "#d0f0c0"; // verde suave
+      formatoSelect.style.backgroundColor = "#cce5cc"; // verde suave apagado
       break;
     case "blanda":
-      formatoSelect.style.backgroundColor = "#f0e68c"; // amarillo suave
+      formatoSelect.style.backgroundColor = "#fff4b3"; // amarillo suave
       break;
     case "dura":
-      formatoSelect.style.backgroundColor = "#ffcccb"; // rojo suave
+      formatoSelect.style.backgroundColor = "#f4cccc"; // rojo suave apagado
       break;
     default:
-      formatoSelect.style.backgroundColor = ""; // color por defecto
+      formatoSelect.style.backgroundColor = "#ffffffcc"; // blanco translúcido por defecto
   }
 }
 
@@ -225,7 +231,7 @@ function copiarMensaje() {
   const texto = document.getElementById("mensajePedido");
   texto.select();
   document.execCommand("copy");
-  alert("Pedido copiado. Envíalo a: " + EMAIL_CONTACTO);
+  alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
 }
 
 window.onload = function() {
@@ -314,8 +320,11 @@ Le confirmaremos la recepción y el envío de su pedido.
 <textarea id="mensajePedido"></textarea>
 <button onclick="copiarMensaje()">Puse aquí para copiar el pedido</button>
 
-<!-- Botón para copiar email -->
-<button onclick="copiarEmail()">Pulse aquí para copiar el eMail</button>
+<!-- Botón para copiar email con texto centrado y dos líneas -->
+<button id="btnEmail" onclick="copiarEmail()">
+  Pulse aquí para copiar la dirección<br>
+  lavenganzademercurio@gmail.com
+</button>
 
 </div>
 

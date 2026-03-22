@@ -33,6 +33,7 @@ body {
   line-height: 1.5em;
 }
 
+/* CONTENEDOR QR */
 .boton-wrapper {
   display: flex;
   flex-direction: column;
@@ -42,6 +43,12 @@ body {
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
   max-width: 260px;
+  transition: padding 0.3s ease;
+}
+
+/* ESTADO EXPANDIDO */
+.boton-wrapper.expandido {
+  padding-bottom: 32px;
 }
 
 .qr-boton {
@@ -71,7 +78,7 @@ body {
   transform: translate(4px, 4px);
 }
 
-/* FEEDBACK VISUAL */
+/* MENSAJE */
 .feedback {
   margin-top: 10px;
   font-size: 14px;
@@ -133,18 +140,20 @@ function copiarDireccion() {
   navigator.clipboard.writeText(BCH_ADDRESS);
 
   const feedback = document.getElementById("feedbackQR");
+  const contenedor = document.getElementById("contenedorQR");
+
+  contenedor.classList.add("expandido");
   feedback.classList.add("visible");
 
   setTimeout(() => {
     feedback.classList.remove("visible");
+    contenedor.classList.remove("expandido");
   }, 2000);
 }
 
 function actualizarCamposEnvio() {
-
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
-
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 }
 
@@ -183,7 +192,6 @@ ${email}
 `;
 
   if(formato === "blanda" || formato === "dura") {
-
     mensaje +=
 `Dirección de envío:
 ${direccion}
@@ -192,7 +200,6 @@ ${postal}
 ${pais}
 
 `;
-
   }
 
   mensaje += `Dirección BCH:
@@ -202,19 +209,15 @@ ${BCH_ADDRESS}`;
 }
 
 function copiarMensaje() {
-
   const texto = document.getElementById("mensajePedido");
   texto.select();
   document.execCommand("copy");
-
   alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
 }
 
 window.onload = function() {
-
   document.getElementById("pedidoInput").value = generarPedidoID();
   document.getElementById("fechaPedido").value = obtenerFechaHora();
-
 }
 
 </script>
@@ -230,36 +233,27 @@ con Bitcoin Cash (BCH)
 
 <div class="bloque">
 <p><strong>1. Elija el formato del libro</strong></p>
-
 <p>
 eBook: 5 €<br>
 Tapa blanda: 15 €<br>
 Tapa dura: 20 €
 </p>
-
-<p>
-Todos los precios incluyen gastos de envío.
-</p>
+<p>Todos los precios incluyen gastos de envío.</p>
 </div>
 
 <div class="bloque">
 <p><strong>2. Realice el pago</strong></p>
-
 <p>
 Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera.<br>
 También puede escanearlo si lo prefiere.
 </p>
-
-<p>
-Introduzca en su billetera el importe correspondiente en euros.
-</p>
+<p>Introduzca en su billetera el importe correspondiente en euros.</p>
 </div>
 
-<div class="boton-wrapper">
+<div id="contenedorQR" class="boton-wrapper">
   <div class="qr-boton" onclick="copiarDireccion()">
     <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
   </div>
-
   <div id="feedbackQR" class="feedback">
     ✔ Dirección copiada
   </div>
@@ -267,19 +261,12 @@ Introduzca en su billetera el importe correspondiente en euros.
 
 <div class="bloque">
 <p><strong>3. Envíe su pedido</strong></p>
-
-<p>
-Rellene el formulario y pulse "Comprar con Bitcoin Cash (BCH)".
-</p>
-
+<p>Rellene el formulario y pulse "Comprar con Bitcoin Cash (BCH)".</p>
 <p>
 Después, pulse "Copiar mensaje" y envíelo por email a:<br>
 <strong>lavenganzademercurio@gmail.com</strong>
 </p>
-
-<p>
-Le confirmaremos la recepción y el envío de su pedido.
-</p>
+<p>Le confirmaremos la recepción y el envío de su pedido.</p>
 </div>
 
 <div class="formulario">
@@ -302,19 +289,14 @@ Le confirmaremos la recepción y el envío de su pedido.
 <input type="email" id="email">
 
 <div id="direccionEnvio" class="direccion-envio">
-
 <label>Dirección</label>
 <input type="text" id="direccion">
-
 <label>Ciudad</label>
 <input type="text" id="ciudad">
-
 <label>Código postal</label>
 <input type="text" id="postal">
-
 <label>País</label>
 <input type="text" id="pais">
-
 </div>
 
 <button onclick="generarMensaje()">

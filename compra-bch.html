@@ -2,98 +2,139 @@
 <html lang="es-ES">
 <head>
 <meta charset="utf-8">
-<title>Comprar el libro – La Venganza de Mercurio con Bitcoin Cash (BCH)</title>
+<title>Comprar el libro – La Venganza de Mercurio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 
-<link rel="stylesheet" href="estilos.css">
-<script defer src="funciones.js"></script>
+<style>
+body {
+  font-family: Georgia, serif;
+  margin: 0;
+  padding: 0;
+  background: url('portadaWEB.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #111;
+}
+
+.titulo-principal {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 2em auto 1em auto;
+  color: #fff;
+  text-shadow:
+    2px 2px 4px rgba(0,0,0,0.7),
+    0 0 8px rgba(255,255,255,0.4);
+}
+
+.bloque {
+  background-color: rgba(240,240,240,0.9);
+  margin: 1.2em auto;
+  padding: 1em;
+  border-radius: 12px;
+  max-width: 600px;
+  text-align: justify;
+}
+
+.qr-container {
+  text-align: center;
+  margin: 1em auto;
+}
+
+.qr-container img {
+  width: 220px;
+  border-radius: 12px;
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45);
+}
+
+.formulario {
+  background-color: rgba(240,240,240,0.9);
+  margin: 1.5em auto;
+  padding: 1em;
+  border-radius: 12px;
+  max-width: 600px;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #999;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: 1px solid #999;
+  background: linear-gradient(to bottom, #f8f8f8, #dddddd);
+  cursor: pointer;
+}
+</style>
+
+<script>
+function generarPedidoID() {
+  return 'MERC-' + Date.now();
+}
+
+window.onload = function() {
+  const pedidoID = generarPedidoID();
+  document.getElementById("pedidoID").innerText = pedidoID;
+  document.getElementById("pedidoInput").value = pedidoID;
+};
+</script>
+
 </head>
 
 <body>
 
 <div class="titulo-principal">
-  Comprar el libro – La Venganza de Mercurio<br>
-  con Bitcoin Cash (BCH)
+Comprar el libro – La Venganza de Mercurio
 </div>
 
-<!-- Paso 1 -->
 <div class="bloque">
-  <p><strong>1. Elija el formato del libro</strong></p>
-  <select id="formato" onchange="actualizarCamposEnvio()" required>
-    <option value="">Seleccione</option>
-    <option value="ebook">eBook (5€)</option>
-    <option value="blanda">Tapa blanda (17€)</option>
-    <option value="dura">Tapa dura (20€)</option>
-  </select>
-  <p>Los precios ya incluyen los gastos de envío.</p>
+<p>
+Precio: <strong>15 € en Bitcoin Cash (BCH)</strong><br><br>
+Escanee el siguiente código QR y realice el pago.<br>
+IMPORTANTE: incluya en el concepto o referencia el siguiente código:
+</p>
+
+<p style="text-align:center; font-size:20px; font-weight:bold;" id="pedidoID">
+Cargando...
+</p>
+
 </div>
 
-<!-- Paso 2 -->
+<div class="qr-container">
+<img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+</div>
+
 <div class="bloque">
-  <p><strong>2. Realice el pago</strong></p>
-  <p>Pulse sobre el código QR para copiar la dirección de pago.</p>
+<p>
+Después de realizar el pago, rellene el siguiente formulario para que podamos enviarle el libro.
+</p>
 </div>
 
-<div class="boton-wrapper">
-  <div class="qr-boton" onclick="copiarDireccion()">
-    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
-  </div>
-  <div id="feedbackQR">Dirección copiada</div>
-</div>
+<form class="formulario"
+action="https://formspree.io/f/TU_ID_REAL_AQUI"
+method="POST">
 
-<!-- Paso 3 -->
-<div class="bloque">
-  <p><strong>3. Envíe su pedido</strong></p>
-  <p>Rellene el formulario y genere el pedido.</p>
-</div>
+<input type="hidden" name="pedido_id" id="pedidoInput">
 
-<div class="formulario">
+<label>Nombre completo</label>
+<input type="text" name="nombre" required>
 
-  <input type="hidden" id="pedidoInput">
-  <input type="hidden" id="fechaPedido">
-  <input type="hidden" id="formatoPedido">
+<label>Email</label>
+<input type="email" name="email" required>
 
-  <label>Nombre</label>
-  <input type="text" id="nombre">
+<button type="submit">Enviar datos de compra</button>
 
-  <label>Email</label>
-  <input type="email" id="email">
-
-  <div id="direccionEnvio" class="direccion-envio">
-
-    <label>Dirección</label>
-    <input type="text" id="direccion">
-
-    <label>Ciudad</label>
-    <input type="text" id="ciudad">
-
-    <label>Provincia</label>
-    <input type="text" id="provincia">
-
-    <label>Código postal</label>
-    <input type="text" id="postal">
-
-    <label>País</label>
-    <input type="text" id="pais">
-
-    <label>Teléfono</label>
-    <input type="text" id="telefono">
-
-  </div>
-
-  <button class="boton-formulario" onclick="generarMensaje()">Generar pedido</button>
-
-  <textarea id="mensajePedido"></textarea>
-
-  <button class="boton-formulario" onclick="copiarMensaje()">Copiar pedido</button>
-
-  <button class="boton-formulario" onclick="enviarEmail()">Enviar pedido por email</button>
-
-</div>
-
-<div class="boton-wrapper">
-  <a class="boton-comunidad" href="index.html">Comunidad</a>
-</div>
+</form>
 
 </body>
 </html>

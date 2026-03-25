@@ -12,82 +12,105 @@
 <body>
 
 <div class="titulo-principal">
-  Comprar el libro – La Venganza de Mercurio
+Comprar el libro – La Venganza de Mercurio
 </div>
 
-<!-- Paso 1: Selección de formato -->
 <div class="bloque">
-  <p><strong>1. Elija el formato</strong></p>
+<p><strong>1. Elija el formato</strong></p>
 
-  <select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
-    <option value="">Seleccione</option>
-    <option value="ebook">eBook (5€)</option>
-    <option value="blanda">Tapa blanda (17€)</option>
-    <option value="dura">Tapa dura (20€)</option>
-  </select>
+<select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
+<option value="">Seleccione</option>
+<option value="eBook (5€)">eBook (5€)</option>
+<option value="Tapa blanda (17€)">Tapa blanda (17€)</option>
+<option value="Tapa dura (20€)">Tapa dura (20€)</option>
+</select>
 
 </div>
 
-<!-- Paso 2: Pago -->
 <div class="bloque">
-  <p><strong>2. Realice el pago</strong></p>
-  <p>Escanee o copie la dirección BCH.</p>
+<p><strong>2. Realice el pago</strong></p>
+<p>Escanee o copie la dirección BCH.</p>
 </div>
 
-<div class="boton-wrapper" id="qr-container">
-  <div class="qr-boton" onclick="copiarDireccion()">
-    <img src="img/QR-BCH.jpg" alt="QR BCH">
-  </div>
-  <div id="feedbackQR">Dirección copiada</div>
+<div class="boton-wrapper">
+<div class="qr-boton" onclick="copiarDireccion()">
+<img src="img/QR-BCH.jpg" alt="QR BCH">
+<div id="feedbackQR" style="position:absolute; bottom:50%; width:100%; text-align:center; font-size:14px; color:green; opacity:0; transition: opacity 0.3s ease;">
+Dirección copiada
+</div>
+</div>
 </div>
 
-<!-- Paso 3: Formulario de envío -->
 <form class="formulario"
-      action="https://formsubmit.co/lavenganzademercurio@gmail.com"
-      method="POST"
-      onsubmit="return prepararEnvio()">
+action="https://formsubmit.co/lavenganzademercurio@gmail.com"
+method="POST"
+onsubmit="return prepararEnvio()">
 
-  <input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_next" value="https://jarmatan.github.io/Pruebas/gracias.html">
+<input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
+<input type="hidden" name="_captcha" value="false">
 
-  <input type="hidden" id="pedidoInput" name="ID de pedido">
-  <input type="hidden" id="fechaPedido" name="Fecha">
-  <input type="hidden" id="formatoPedido" name="Formato y precio">
+<input type="hidden" name="_next" value="https://jarmatan.github.io/Pruebas/gracias.html">
 
-  <label>Nombre</label>
-  <input type="text" id="nombre" name="Nombre" required>
+<input type="hidden" id="pedidoInput" name="ID de pedido">
+<input type="hidden" id="fechaPedido" name="Fecha">
 
-  <label>Email</label>
-  <input type="email" id="email" name="Email" required>
+<label>Nombre</label>
+<input type="text" id="nombre" name="Nombre" required>
 
-  <div id="direccionEnvio" class="direccion-envio">
+<label>Email</label>
+<input type="email" id="email" name="Email" required>
 
-    <label>Dirección</label>
-    <input type="text" id="direccion" name="Dirección">
+<div id="direccionEnvio" class="direccion-envio">
 
-    <label>Ciudad</label>
-    <input type="text" id="ciudad" name="Ciudad">
+<label>Dirección</label>
+<input type="text" id="direccion" name="Dirección">
 
-    <label>Provincia</label>
-    <input type="text" id="provincia" name="Provincia">
+<label>Ciudad</label>
+<input type="text" id="ciudad" name="Ciudad">
 
-    <label>Código postal</label>
-    <input type="text" id="postal" name="Código postal">
+<label>Provincia</label>
+<input type="text" id="provincia" name="Provincia">
 
-    <label>País</label>
-    <input type="text" id="pais" name="País">
+<label>Código postal</label>
+<input type="text" id="postal" name="Código postal">
 
-    <label>Teléfono</label>
-    <input type="text" id="telefono" name="Teléfono">
+<label>País</label>
+<input type="text" id="pais" name="País">
 
-  </div>
+<label>Teléfono</label>
+<input type="text" id="telefono" name="Teléfono">
 
-  <button class="boton-formulario" type="submit">
-    Enviar pedido
-  </button>
+</div>
+
+<button class="boton-formulario" type="submit">
+Enviar pedido
+</button>
 
 </form>
+
+<script>
+// Función para copiar la dirección BCH al portapapeles y mostrar feedback
+function copiarDireccion() {
+  const direccion = "bitcoincash:qr9wxyz..."; // reemplazar con la real
+  navigator.clipboard.writeText(direccion).then(() => {
+    const feedback = document.getElementById('feedbackQR');
+    feedback.style.opacity = '1';
+    setTimeout(() => feedback.style.opacity = '0', 1000); // se oculta automáticamente
+  });
+}
+
+// Función para actualizar colores según formato
+function actualizarCamposEnvio() {
+  const select = document.getElementById('formato');
+  const valor = select.value;
+  let color = '';
+  if (valor.includes('eBook')) color = 'green';
+  else if (valor.includes('Tapa blanda')) color = 'blue';
+  else if (valor.includes('Tapa dura')) color = 'yellow';
+  select.style.backgroundColor = color;
+  document.getElementById('direccionEnvio').style.display = valor.includes('eBook') ? 'none' : 'block';
+}
+</script>
 
 </body>
 </html>

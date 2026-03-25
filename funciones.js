@@ -1,83 +1,108 @@
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 
+/* =========================
+   COPIAR DIRECCIÓN BCH
+========================= */
 function copiarDireccion() {
   const feedback = document.getElementById("feedbackQR");
   const contenedor = document.querySelector(".boton-wrapper");
 
-  // Aumenta padding inferior para el rebote
-  contenedor.style.paddingBottom = "40px"; // genera espacio debajo
+  if (!feedback || !contenedor) return;
+
+  contenedor.style.paddingBottom = "40px";
   feedback.classList.add("visible");
 
-  // Copia al portapapeles
   navigator.clipboard.writeText(BCH_ADDRESS);
 
   setTimeout(() => {
     feedback.classList.remove("visible");
-    contenedor.style.paddingBottom = "18px"; // vuelve al tamaño original
+    contenedor.style.paddingBottom = "18px";
   }, 2000);
 }
 
-function actualizarCamposEnvio() {
-  const formato = document.getElementById("formato").value;
-  const envio = document.getElementById("direccionEnvio");
-  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
-}
+/* =========================
+   COLORES POR FORMATO
+========================= */
 const COLORES_FORMATO = {
-  ebook: "#b7e4b7",   // verde
-  blanda: "#b3c7ff",  // azul
-  dura: "#ffe599"     // amarillo
+  ebook: "#b7e4b7",
+  blanda: "#b3c7ff",
+  dura: "#ffe599"
 };
 
+/* =========================
+   ACTUALIZAR CAMPOS ENVÍO
+========================= */
 function actualizarCamposEnvio() {
-  const formato = document.getElementById("formato").value;
+  const formato = document.getElementById("formato")?.value;
   const envio = document.getElementById("direccionEnvio");
 
-  // Mostrar/ocultar dirección
+  if (!envio) return;
+
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 
-  // Aplicar colores
   aplicarColorCampos(formato);
 }
 
+/* =========================
+   APLICAR COLOR CAMPOS
+========================= */
 function aplicarColorCampos(formato) {
   const color = COLORES_FORMATO[formato] || "#ffffff";
 
-  // Todos los campos del formulario
   const campos = document.querySelectorAll(".formulario input, .formulario textarea, .formulario select");
 
   campos.forEach(campo => {
     campo.style.backgroundColor = color;
   });
 
-  // También el selector de formato
   const selector = document.getElementById("formato");
-  selector.style.backgroundColor = color;
+  if (selector) selector.style.backgroundColor = color;
 }
+
+/* =========================
+   PREPARAR ENVÍO (FIX REAL)
+========================= */
 function prepararEnvio() {
 
-  // 1. ID de pedido (simple y único)
+  const pedidoInput = document.getElementById("pedidoInput");
+  const fechaInput = document.getElementById("fechaPedido");
+  const formatoInput = document.getElementById("formatoPedido");
+  const formatoSelect = document.getElementById("formato");
+
+  if (!pedidoInput || !fechaInput || !formatoInput || !formatoSelect) {
+    console.error("Error: faltan elementos del formulario");
+    return true;
+  }
+
+  // ID único
   const id = "PED-" + Date.now();
-  document.getElementById("pedidoInput").value = id;
+  pedidoInput.value = id;
 
-  // 2. Fecha actual
-  const ahora = new Date();
-  const fecha = ahora.toLocaleString("es-ES");
-  document.getElementById("fechaPedido").value = fecha;
+  // Fecha
+  const fecha = new Date().toLocaleString("es-ES");
+  fechaInput.value = fecha;
 
-  // 3. Formato + precio
-  const formato = document.getElementById("formato").value;
+  // Formato
+  const formato = formatoSelect.value;
 
   let textoFormato = "";
 
-  if (formato === "ebook") {
-    textoFormato = "eBook (5€)";
-  } else if (formato === "blanda") {
-    textoFormato = "Tapa blanda (17€)";
-  } else if (formato === "dura") {
-    textoFormato = "Tapa dura (20€)";
-  }
+  if (formato === "ebook") textoFormato = "eBook (5€)";
+  if (formato === "blanda") textoFormato = "Tapa blanda (17€)";
+  if (formato === "dura") textoFormato = "Tapa dura (20€)";
 
-  document.getElementById("formatoPedido").value = textoFormato;
+  formatoInput.value = textoFormato;
 
-  return true; // permite enviar el formulario
+  return true;
 }
+
+/* =========================
+   EVENTO SEGURO DE ENVÍO
+========================= */
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".formulario");
+
+  if (form) {
+    form.addEventListener("submit", prepararEnvio);
+  }
+});

@@ -1,98 +1,64 @@
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
+const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
+const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
+const COLORES_FORMATO = { ebook: "#b7e4b7", blanda: "#b3c7ff", dura: "#ffe599" };
 
-const COLORES_FORMATO = {
-  "eBook (5€)": "#d9f2d9",
-  "Tapa blanda (17€)": "#d9e2ff",
-  "Tapa dura (20€)": "#fff2cc"
-};
-
-// ID pedido
+// --- Compras ---
 function generarPedidoID() {
   return 'MERC-' + Date.now();
 }
 
-// Fecha
 function obtenerFechaHora() {
   return new Date().toLocaleString();
 }
 
-// Copiar dirección BCH
 function copiarDireccion() {
-  navigator.clipboard.writeText(BCH_ADDRESS);
-  const f = document.getElementById("feedbackQR");
-  f.classList.add("visible");
-  setTimeout(() => f.classList.remove("visible"), 2000);
+  navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
+    const feedback = document.getElementById("feedbackQR");
+    const contenedor = document.getElementById("qr-container");
+    contenedor.style.paddingBottom = "60px"; // espacio suficiente
+    feedback.classList.add("visible");
+    setTimeout(() => {
+      feedback.classList.remove("visible");
+      contenedor.style.paddingBottom = "12px";
+    }, 2000);
+  });
 }
 
-// Mostrar campos de envío
 function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
-
-  document.getElementById("direccionEnvio").style.display =
-    (formato.includes("blanda") || formato.includes("dura")) ? "block" : "none";
-
-  aplicarColorFormato();
+  const envio = document.getElementById("direccionEnvio");
+  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+  document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
+  document.getElementById("formato").style.backgroundColor = formato ? COLORES_FORMATO[formato] : "#fff";
+  actualizarColoresCampos();
 }
 
-// Aplicar colores (SOLUCIÓN DEFINITIVA)
-function aplicarColorFormato() {
+function actualizarColoresCampos() {
   const formato = document.getElementById("formato").value;
-  const color = COLORES_FORMATO[formato];
-
-  document.querySelectorAll(".formulario input, .formulario textarea")
+  const color = COLORES_FORMATO[formato] || "#fff";
+  document.querySelectorAll(".formulario input, .formulario textarea, .formulario select")
     .forEach(campo => {
-      if (campo.value.trim() !== "" && color) {
-        campo.style.backgroundColor = color;
+      if(campo.value.trim() !== "") {
+        campo.style.boxShadow = `inset 0 0 0 1000px ${color}`;
       } else {
-        campo.style.backgroundColor = "#fff";
+        campo.style.boxShadow = "none";
       }
     });
 }
 
-// Validación + preparación
 function prepararEnvio() {
-
-  const formato = document.getElementById("formato");
-
-  if (formato.value === "") {
-    alert("Seleccione un formato");
-    return false;
-  }
-
-  // rellenar datos ocultos
   document.getElementById("pedidoInput").value = generarPedidoID();
   document.getElementById("fechaPedido").value = obtenerFechaHora();
-
-  guardarPedidoLocal();
-
+  actualizarCamposEnvio();
   return true;
 }
 
-// Guardado local
-function guardarPedidoLocal() {
-
-  const pedido = {
-    id: document.getElementById("pedidoInput").value,
-    fecha: document.getElementById("fechaPedido").value,
-    nombre: document.getElementById("nombre").value,
-    email: document.getElementById("email").value,
-    formato: document.getElementById("formato").value,
-    estado: "pendiente"
-  };
-
-  let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-  pedidos.push(pedido);
-  localStorage.setItem("pedidos", JSON.stringify(pedidos));
-}
-
-// Eventos
+// --- Inicialización ---
 window.onload = function() {
-
-  document.querySelectorAll(".formulario input")
+  document.getElementById("formato")?.addEventListener("change", actualizarCamposEnvio);
+  document.querySelectorAll(".formulario input, .formulario textarea, .formulario select")
     .forEach(campo => {
-      campo.addEventListener("input", aplicarColorFormato);
+      campo.addEventListener("input", actualizarColoresCampos);
     });
-
-  document.getElementById("formato")
-    .addEventListener("change", aplicarColorFormato);
 };

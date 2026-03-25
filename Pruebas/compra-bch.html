@@ -35,10 +35,8 @@ Comprar el libro – La Venganza de Mercurio
 <div class="boton-wrapper">
 <div class="qr-boton" onclick="copiarDireccion()">
 <img src="img/QR-BCH.jpg" alt="QR BCH">
-<div id="feedbackQR" style="position:absolute; bottom:50%; width:100%; text-align:center; font-size:14px; color:green; opacity:0; transition: opacity 0.3s ease;">
-Dirección copiada
 </div>
-</div>
+<div id="feedbackQR">Dirección copiada</div>
 </div>
 
 <form class="formulario"
@@ -87,30 +85,6 @@ Enviar pedido
 </button>
 
 </form>
-
-<script>
-// Función para copiar la dirección BCH al portapapeles y mostrar feedback
-function copiarDireccion() {
-  const direccion = "bitcoincash:qr9wxyz..."; // reemplazar con la real
-  navigator.clipboard.writeText(direccion).then(() => {
-    const feedback = document.getElementById('feedbackQR');
-    feedback.style.opacity = '1';
-    setTimeout(() => feedback.style.opacity = '0', 1000); // se oculta automáticamente
-  });
-}
-
-// Función para actualizar colores según formato
-function actualizarCamposEnvio() {
-  const select = document.getElementById('formato');
-  const valor = select.value;
-  let color = '';
-  if (valor.includes('eBook')) color = 'green';
-  else if (valor.includes('Tapa blanda')) color = 'blue';
-  else if (valor.includes('Tapa dura')) color = 'yellow';
-  select.style.backgroundColor = color;
-  document.getElementById('direccionEnvio').style.display = valor.includes('eBook') ? 'none' : 'block';
-}
-</script>
 
 </body>
 </html>

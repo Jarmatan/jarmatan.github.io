@@ -53,3 +53,31 @@ function aplicarColorCampos(formato) {
   const selector = document.getElementById("formato");
   selector.style.backgroundColor = color;
 }
+function prepararEnvio() {
+
+  // 1. ID de pedido (simple y único)
+  const id = "PED-" + Date.now();
+  document.getElementById("pedidoInput").value = id;
+
+  // 2. Fecha actual
+  const ahora = new Date();
+  const fecha = ahora.toLocaleString("es-ES");
+  document.getElementById("fechaPedido").value = fecha;
+
+  // 3. Formato + precio
+  const formato = document.getElementById("formato").value;
+
+  let textoFormato = "";
+
+  if (formato === "ebook") {
+    textoFormato = "eBook (5€)";
+  } else if (formato === "blanda") {
+    textoFormato = "Tapa blanda (17€)";
+  } else if (formato === "dura") {
+    textoFormato = "Tapa dura (20€)";
+  }
+
+  document.getElementById("formatoPedido").value = textoFormato;
+
+  return true; // permite enviar el formulario
+}

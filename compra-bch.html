@@ -2,10 +2,9 @@
 <html lang="es-ES">
 <head>
 <meta charset="utf-8">
-<title>Comprar el libro – La Venganza de Mercurio con Bitcoin Cash (BCH)</title>
+<title>Comprar – La Venganza de Mercurio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Enlaces a archivos externos -->
 <link rel="stylesheet" href="estilos.css">
 <script src="funciones.js" defer></script>
 </head>
@@ -13,82 +12,75 @@
 <body>
 
 <div class="titulo-principal">
-  Comprar el libro – La Venganza de Mercurio<br>
-  con Bitcoin Cash (BCH)
+  Comprar el libro – La Venganza de Mercurio
 </div>
 
-<!-- Paso 1: Selección de formato -->
 <div class="bloque">
-  <p><strong>1. Elija el formato del libro</strong></p>
-  <select id="formato" onchange="actualizarCamposEnvio()" required>
+  <p><strong>1. Elija el formato</strong></p>
+  <select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
     <option value="">Seleccione</option>
     <option value="ebook">eBook (5€)</option>
     <option value="blanda">Tapa blanda (17€)</option>
     <option value="dura">Tapa dura (20€)</option>
   </select>
-  <p>Los precios ya incluyen los gastos de envío.</p>
 </div>
 
-<!-- Paso 2: Pago -->
 <div class="bloque">
   <p><strong>2. Realice el pago</strong></p>
-  <p>Pulse sobre el código QR para copiar la dirección de pago y pegarla en su cartera. También puede escanearlo si lo prefiere.</p>
-  </br>
-  <p>Introduzca en su billetera la dirección y el importe correspondiente en euros y envíe el pago (solo Bitcoin Cash).</p>
+  <p>Escanee o pulse sobre el QR para copiar la dirección BCH.</p>
 </div>
 
 <div class="boton-wrapper">
   <div class="qr-boton" onclick="copiarDireccion()">
-    <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+    <img src="img/QR-BCH.jpg" alt="QR BCH">
   </div>
-  <div id="feedbackQR">Dirección copiada</div>
+  <div id="feedbackQR">✔ Dirección copiada</div>
 </div>
 
-<!-- Paso 3: Envío del pedido -->
-<div class="bloque">
-  <p><strong>3. Envíe su pedido</strong></p>
-  <p>Rellene el formulario y pulse el botón de Generar el Pedido.</p>
-  </br>
-  <p>Después, pulse el botón de copiar el pedido y envíelo por email a: <strong>lavenganzademercurio@gmail.com</strong></p>
-  </br>
-  <p>Le confirmaremos la recepción y el envío de su pedido.</p>
-</div>
+<form class="formulario"
+      action="https://formsubmit.co/lavenganzademercurio@gmail.com"
+      method="POST"
+      onsubmit="return prepararEnvio()">
 
-<div class="formulario">
-  <input type="hidden" id="pedidoInput">
-  <input type="hidden" id="fechaPedido">
-  <input type="hidden" id="formatoPedido">
+  <input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="https://jarmatan.github.io/Pruebas/gracias.html">
+
+  <input type="hidden" id="pedidoInput" name="ID de pedido">
+  <input type="hidden" id="fechaPedido" name="Fecha">
+  <input type="hidden" id="formatoPedido" name="Formato y precio">
 
   <label>Nombre</label>
-  <input type="text" id="nombre">
+  <input type="text" id="nombre" name="Nombre" required>
 
   <label>Email</label>
-  <input type="email" id="email">
+  <input type="email" id="email" name="Email" required>
 
   <div id="direccionEnvio" class="direccion-envio">
     <label>Dirección</label>
-    <input type="text" id="direccion">
+    <input type="text" id="direccion" name="Dirección">
+
     <label>Ciudad</label>
-    <input type="text" id="ciudad">
+    <input type="text" id="ciudad" name="Ciudad">
+
+    <label>Provincia</label>
+    <input type="text" id="provincia" name="Provincia">
+
     <label>Código postal</label>
-    <input type="text" id="postal">
+    <input type="text" id="postal" name="Código postal">
+
     <label>País</label>
-    <input type="text" id="pais">
+    <input type="text" id="pais" name="País">
+
+    <label>Teléfono</label>
+    <input type="text" id="telefono" name="Teléfono">
   </div>
 
-  <button class="boton-formulario" onclick="generarMensaje()">Pulse aquí para generar el pedido</button>
-  <textarea id="mensajePedido"></textarea>
-  <button class="boton-formulario" onclick="copiarMensaje()">Pulse aquí para copiar el pedido</button>
-  <button class="boton-formulario" onclick="copiarEmail()">
-    Pulse aquí para copiar la dirección<br>
-    lavenganzademercurio@gmail.com
+  <button class="boton-formulario" type="submit">
+    Enviar pedido
   </button>
-</div>
 
-<!-- BOTÓN COMUNIDAD AL FINAL -->
-<div class="boton-wrapper">
-  <a class="boton-comunidad" href="index.html">Comunidad</a>
-</div>
+</form>
 
 </body>
 </html>

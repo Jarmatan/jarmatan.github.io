@@ -6,7 +6,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="estilos.css">
-<script src="funciones.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', () => {
+  const qrContainer = document.getElementById('qr-container');
+  const feedback = document.getElementById('feedbackQR');
+
+  // Guardamos la altura original al cargar
+  const alturaOriginal = qrContainer.offsetHeight;
+
+  window.copiarDireccion = function() {
+    // Copia la dirección
+    navigator.clipboard.writeText("TU_DIRECCION_BCH");
+
+    // Mostrar mensaje
+    feedback.classList.add('visible');
+
+    // Asegura que el contenedor se expanda si es necesario
+    qrContainer.style.height = 'auto';
+
+    // Ocultar mensaje y restaurar altura original
+    setTimeout(() => {
+      feedback.classList.remove('visible');
+      qrContainer.style.height = alturaOriginal + 'px';
+    }, 2000);
+  };
+});
+</script>
 </head>
 
 <body>

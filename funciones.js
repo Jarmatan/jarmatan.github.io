@@ -60,49 +60,51 @@ function aplicarColorCampos(formato) {
 }
 
 /* =========================
-   PREPARAR ENVÍO (FIX REAL)
-========================= */
-function prepararEnvio() {
-
-  const pedidoInput = document.getElementById("pedidoInput");
-  const fechaInput = document.getElementById("fechaPedido");
-  const formatoInput = document.getElementById("formatoPedido");
-  const formatoSelect = document.getElementById("formato");
-
-  if (!pedidoInput || !fechaInput || !formatoInput || !formatoSelect) {
-    console.error("Error: faltan elementos del formulario");
-    return true;
-  }
-
-  // ID único
-  const id = "PED-" + Date.now();
-  pedidoInput.value = id;
-
-  // Fecha
-  const fecha = new Date().toLocaleString("es-ES");
-  fechaInput.value = fecha;
-
-  // Formato
-  const formato = formatoSelect.value;
-
-  let textoFormato = "";
-
-  if (formato === "ebook") textoFormato = "eBook (5€)";
-  if (formato === "blanda") textoFormato = "Tapa blanda (17€)";
-  if (formato === "dura") textoFormato = "Tapa dura (20€)";
-
-  formatoInput.value = textoFormato;
-
-  return true;
-}
-
-/* =========================
-   EVENTO SEGURO DE ENVÍO
+   EVENTO SEGURO DE ENVÍO (FIX DEFINITIVO)
 ========================= */
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".formulario");
 
-  if (form) {
-    form.addEventListener("submit", prepararEnvio);
-  }
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+
+    e.preventDefault(); // ⛔ detenemos envío automático
+
+    const pedidoInput = document.getElementById("pedidoInput");
+    const fechaInput = document.getElementById("fechaPedido");
+    const formatoInput = document.getElementById("formatoPedido");
+    const formatoSelect = document.getElementById("formato");
+
+    if (!pedidoInput || !fechaInput || !formatoInput || !formatoSelect) {
+      console.error("Error: faltan elementos del formulario");
+      form.submit(); // enviamos igualmente por seguridad
+      return;
+    }
+
+    // ID único
+    const id = "PED-" + Date.now();
+    pedidoInput.value = id;
+
+    // Fecha
+    const fecha = new Date().toLocaleString("es-ES");
+    fechaInput.value = fecha;
+
+    // Formato
+    let textoFormato = "";
+    const formato = formatoSelect.value;
+
+    if (formato === "ebook") textoFormato = "eBook (5€)";
+    if (formato === "blanda") textoFormato = "Tapa blanda (17€)";
+    if (formato === "dura") textoFormato = "Tapa dura (20€)";
+
+    formatoInput.value = textoFormato;
+
+    // DEBUG (puedes borrar luego)
+    console.log("Datos enviados:");
+    console.log(id, fecha, textoFormato);
+
+    // 🚀 Envío manual (CLAVE)
+    form.submit();
+  });
 });

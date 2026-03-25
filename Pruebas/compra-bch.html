@@ -17,12 +17,14 @@ Comprar el libro – La Venganza de Mercurio
 
 <div class="bloque">
 <p><strong>1. Elija el formato</strong></p>
-<select id="formato" onchange="actualizarCamposEnvio()" required>
+
+<select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
 <option value="">Seleccione</option>
-<option value="ebook">eBook (5€)</option>
-<option value="blanda">Tapa blanda (17€)</option>
-<option value="dura">Tapa dura (20€)</option>
+<option value="eBook (5€)">eBook (5€)</option>
+<option value="Tapa blanda (17€)">Tapa blanda (17€)</option>
+<option value="Tapa dura (20€)">Tapa dura (20€)</option>
 </select>
+
 </div>
 
 <div class="bloque">
@@ -32,7 +34,7 @@ Comprar el libro – La Venganza de Mercurio
 
 <div class="boton-wrapper">
 <div class="qr-boton" onclick="copiarDireccion()">
-<img src="QR-BCH.jpg">
+<img src="img/QR-BCH.jpg">
 </div>
 <div id="feedbackQR">Dirección copiada</div>
 </div>
@@ -40,7 +42,7 @@ Comprar el libro – La Venganza de Mercurio
 <form class="formulario"
 action="https://formsubmit.co/lavenganzademercurio@gmail.com"
 method="POST"
-onsubmit="guardarPedidoLocal()">
+onsubmit="return prepararEnvio()">
 
 <input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
 <input type="hidden" name="_captcha" value="false">

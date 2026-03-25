@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="utf-8">
+<title>Donaciones – La Venganza de Mercurio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="stylesheet" href="estilos.css">
+<script src="scripts.js"></script>
+</head>
+
+<body>
+
+  <div class="titulo-principal">
+    Donaciones – La Venganza de Mercurio
+  </div>
+
+  <div class="bloque">
+    <p>
+      Si desea apoyar este proyecto y a su autor, puede hacerlo mediante donaciones en
+      <strong>Bitcoin Cash (BCH)</strong>. Esta página pretende también servir como una
+      breve introducción práctica al uso de esta criptodivisa.
+    </p>
+  </div>
+
+  <!-- QR Donaciones -->
+  <div class="boton-wrapper" style="max-width: 260px; padding: 18px;">
+    <div class="qr-boton" onclick="copiarDireccionDonaciones()">
+      <img src="QR-BCH.jpg" alt="QR Bitcoin Cash">
+      <div id="feedbackQRDonaciones">Dirección copiada</div>
+    </div>
+  </div>
+
+  <!-- BOTÓN COMUNIDAD -->
+  <div class="boton-wrapper">
+    <a class="boton-comunidad" href="index.html">Comunidad</a>
+  </div>
+
+  <script>
+    const BCH_ADDRESS_DON = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
+
+    function copiarDireccionDonaciones() {
+      navigator.clipboard.writeText(BCH_ADDRESS_DON).then(() => {
+        const feedback = document.getElementById("feedbackQRDonaciones");
+        const contenedor = document.querySelector(".qr-boton");
+        contenedor.style.paddingBottom = "40px";
+        feedback.classList.add("visible");
+        setTimeout(() => {
+          feedback.classList.remove("visible");
+          contenedor.style.paddingBottom = "12px";
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

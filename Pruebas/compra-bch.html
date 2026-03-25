@@ -11,23 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const qrContainer = document.getElementById('qr-container');
   const feedback = document.getElementById('feedbackQR');
 
-  // Guardamos la altura original al cargar
-  const alturaOriginal = qrContainer.offsetHeight;
-
   window.copiarDireccion = function() {
-    // Copia la dirección
     navigator.clipboard.writeText("TU_DIRECCION_BCH");
-
-    // Mostrar mensaje
     feedback.classList.add('visible');
-
-    // Asegura que el contenedor se expanda si es necesario
-    qrContainer.style.height = 'auto';
-
-    // Ocultar mensaje y restaurar altura original
     setTimeout(() => {
       feedback.classList.remove('visible');
-      qrContainer.style.height = alturaOriginal + 'px';
     }, 2000);
   };
 });
@@ -40,20 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
   Comprar el libro – La Venganza de Mercurio
 </div>
 
-<!-- Paso 1: Selección de formato -->
 <div class="bloque">
   <p><strong>1. Elija el formato</strong></p>
-
-  <select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
+  <select id="formato" name="Formato" required>
     <option value="">Seleccione</option>
     <option value="ebook">eBook (5€)</option>
     <option value="blanda">Tapa blanda (17€)</option>
     <option value="dura">Tapa dura (20€)</option>
   </select>
-
 </div>
 
-<!-- Paso 2: Pago -->
 <div class="bloque">
   <p><strong>2. Realice el pago</strong></p>
   <p>Escanee o copie la dirección BCH.</p>
@@ -66,52 +50,37 @@ document.addEventListener('DOMContentLoaded', () => {
   <div id="feedbackQR">Dirección copiada</div>
 </div>
 
-<!-- Paso 3: Formulario de envío -->
 <form class="formulario"
       action="https://formsubmit.co/lavenganzademercurio@gmail.com"
-      method="POST"
-      onsubmit="return prepararEnvio()">
-
+      method="POST">
   <input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
   <input type="hidden" name="_captcha" value="false">
   <input type="hidden" name="_next" value="https://jarmatan.github.io/Pruebas/gracias.html">
 
-  <input type="hidden" id="pedidoInput" name="ID de pedido">
-  <input type="hidden" id="fechaPedido" name="Fecha">
-  <input type="hidden" id="formatoPedido" name="Formato y precio">
-
   <label>Nombre</label>
-  <input type="text" id="nombre" name="Nombre" required>
+  <input type="text" name="Nombre" required>
 
   <label>Email</label>
-  <input type="email" id="email" name="Email" required>
+  <input type="email" name="Email" required>
 
-  <div id="direccionEnvio" class="direccion-envio">
-
+  <div class="direccion-envio">
     <label>Dirección</label>
-    <input type="text" id="direccion" name="Dirección">
-
+    <input type="text" name="Dirección">
     <label>Ciudad</label>
-    <input type="text" id="ciudad" name="Ciudad">
-
+    <input type="text" name="Ciudad">
     <label>Provincia</label>
-    <input type="text" id="provincia" name="Provincia">
-
+    <input type="text" name="Provincia">
     <label>Código postal</label>
-    <input type="text" id="postal" name="Código postal">
-
+    <input type="text" name="Código postal">
     <label>País</label>
-    <input type="text" id="pais" name="País">
-
+    <input type="text" name="País">
     <label>Teléfono</label>
-    <input type="text" id="telefono" name="Teléfono">
-
+    <input type="text" name="Teléfono">
   </div>
 
   <button class="boton-formulario" type="submit">
     Enviar pedido
   </button>
-
 </form>
 
 </body>

@@ -3,7 +3,7 @@ body {
   font-family: Georgia, serif;
   margin: 0;
   padding: 0;
-  background: url('portadaWEB.jpg') no-repeat center center fixed;
+  background: url('img/portadaWEB.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #111;
 }
@@ -41,7 +41,7 @@ body {
 
 .formulario input,
 .formulario select,
-.formulario textarea {
+textarea {
   width: 100%;
   padding: 12px;
   box-sizing: border-box;
@@ -193,10 +193,5 @@ textarea {
   background-color: #fff;
   box-sizing: border-box;
   transition: all 0.15s ease;
-  appearance: none; /* elimina estilo nativo del select */
-}
-/* Colores dinámicos */
-.formulario input.coloreado,
-.formulario textarea.coloreado {
-  background-color: inherit !important;
+  appearance: none;
 }

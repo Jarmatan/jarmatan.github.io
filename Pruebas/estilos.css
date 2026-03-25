@@ -3,7 +3,7 @@ body {
   font-family: Georgia, serif;
   margin: 0;
   padding: 0;
-  background: url('portadaWEB.jpg') no-repeat center center fixed;
+  background: url('img/portadaWEB.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #111;
 }
@@ -98,12 +98,14 @@ textarea {
   max-width: 260px;
   position: relative;
   padding: 18px;
+  /* transición para rebote suave */
+  transition: height 0.3s ease;
 }
 
 /* QR Botón */
 .qr-boton {
   max-width: 220px;
-  background: linear-gradient(to bottom, #ffffff, #e4e4e4);
+  background: #fff; /* fondo blanco */
   border-radius: 14px;
   border: 1px solid #aaa;
   cursor: pointer;

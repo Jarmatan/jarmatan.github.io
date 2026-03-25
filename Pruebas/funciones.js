@@ -1,4 +1,3 @@
-// Dirección BCH y email de contacto
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 const EMAIL_CONTACTO = "lavenganzademercurio@gmail.com";
 const PRECIOS = { ebook: 5, blanda: 17, dura: 20 };
@@ -8,7 +7,6 @@ const COLORES_FORMATO = {
   dura: "#ffe599"
 };
 
-// --- Funciones de compra ---
 function generarPedidoID() {
   return 'MERC-' + Date.now();
 }
@@ -35,44 +33,36 @@ function copiarEmail() {
   alert("Email copiado: " + EMAIL_CONTACTO);
 }
 
-// Actualiza la visualización de los campos según el formato
 function actualizarCamposEnvio() {
   const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
   document.getElementById("formatoPedido").value = `${formato} ${PRECIOS[formato] || ''}€`;
-
-  // Aplica color al select
   document.getElementById("formato").style.backgroundColor = formato ? COLORES_FORMATO[formato] : "#fff";
-
-  // Aplica color a los campos según el formato
   aplicarColorFormato();
 }
 
-// Aplica color dinámico a los inputs y textarea
 function aplicarColorFormato() {
   const formato = document.getElementById("formato").value;
   const color = COLORES_FORMATO[formato];
-
   document.querySelectorAll(".formulario input, .formulario textarea")
     .forEach(campo => {
-      if (campo.value.trim() !== "" && color) {
-        campo.classList.add("coloreado");
+      if(campo.value.trim() !== "" && color) {
         campo.style.backgroundColor = color;
       } else {
-        campo.classList.remove("coloreado");
         campo.style.backgroundColor = "#fff";
       }
     });
 }
 
-// Genera el mensaje del pedido
 function generarMensaje() {
   const pedido = document.getElementById("pedidoInput").value;
   const fecha = document.getElementById("fechaPedido").value;
   const formato = document.getElementById("formatoPedido").value;
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
+  const telefono = document.getElementById("telefono").value;
+  const provincia = document.getElementById("provincia").value;
   const direccion = document.getElementById("direccion")?.value || "";
   const ciudad = document.getElementById("ciudad")?.value || "";
   const postal = document.getElementById("postal")?.value || "";
@@ -94,6 +84,12 @@ ${nombre}
 
 Email:
 ${email}
+
+Teléfono:
+${telefono}
+
+Provincia:
+${provincia}
 `;
 
   if(formato.includes("blanda") || formato.includes("dura")) {
@@ -109,7 +105,6 @@ ${pais}
   aplicarColorFormato();
 }
 
-// Copia el mensaje generado
 function copiarMensaje() {
   const texto = document.getElementById("mensajePedido");
   texto.select();
@@ -117,7 +112,6 @@ function copiarMensaje() {
   alert("Mensaje copiado. Envíalo a: " + EMAIL_CONTACTO);
 }
 
-// --- Donaciones ---
 function copiarDireccionDonaciones() {
   navigator.clipboard.writeText(BCH_ADDRESS).then(() => {
     const feedback = document.getElementById("feedbackQRDonaciones");
@@ -131,18 +125,12 @@ function copiarDireccionDonaciones() {
   });
 }
 
-// --- Inicialización ---
 window.onload = function() {
   if(document.getElementById("pedidoInput")) {
     document.getElementById("pedidoInput").value = generarPedidoID();
     document.getElementById("fechaPedido").value = obtenerFechaHora();
-
-    // Eventos de color dinámico
     document.querySelectorAll(".formulario input, .formulario textarea")
-      .forEach(campo => {
-        campo.addEventListener("input", aplicarColorFormato);
-      });
-
+      .forEach(campo => campo.addEventListener("input", aplicarColorFormato));
     document.getElementById("formato")
       .addEventListener("change", aplicarColorFormato);
   }

@@ -195,3 +195,8 @@ textarea {
   transition: all 0.15s ease;
   appearance: none; /* elimina estilo nativo del select */
 }
+/* Colores dinámicos */
+.formulario input.coloreado,
+.formulario textarea.coloreado {
+  background-color: inherit !important;
+}

@@ -219,3 +219,128 @@ textarea {
     2px 2px 4px rgba(0,0,0,0.4),
     inset 0 1px 0 rgba(255,255,255,0.3);
 }
+
+// Dirección BCH
+const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
+
+// Colores según formato
+const COLORES_FORMATO = {
+  ebook: "#b7e4b7",
+  blanda: "#b3c7ff",
+  dura: "#ffe599"
+};
+
+// ────────────────────────────────
+// Copiar dirección BCH
+// ────────────────────────────────
+function copiarDireccion() {
+  const feedback = document.getElementById("feedbackQR");
+  const contenedor = document.querySelector(".boton-wrapper");
+
+  contenedor.style.paddingBottom = "40px";
+  feedback.classList.add("visible");
+
+  navigator.clipboard.writeText(BCH_ADDRESS);
+
+  setTimeout(() => {
+    feedback.classList.remove("visible");
+    contenedor.style.paddingBottom = "18px";
+  }, 2000);
+}
+
+// ────────────────────────────────
+// Mostrar/ocultar dirección + required dinámico
+// ────────────────────────────────
+function actualizarCamposEnvio() {
+  const formato = document.getElementById("formato").value;
+  const envio = document.getElementById("direccionEnvio");
+  const formulario = document.querySelector(".formulario");
+
+  const camposEnvio = document.querySelectorAll("#direccionEnvio input");
+  const esFisico = (formato === "blanda" || formato === "dura");
+
+  envio.style.display = esFisico ? "block" : "none";
+
+  camposEnvio.forEach(campo => {
+    campo.required = esFisico;
+  });
+
+  aplicarColorCampos(formato);
+
+  formulario.classList.remove("formato-ebook", "formato-blanda", "formato-dura");
+  if (formato in COLORES_FORMATO) {
+    formulario.classList.add("formato-" + formato);
+  }
+}
+
+// ────────────────────────────────
+// Aplicar colores
+// ────────────────────────────────
+function aplicarColorCampos(formato) {
+  const color = COLORES_FORMATO[formato] || "#ffffff";
+
+  const campos = document.querySelectorAll(".formulario input, .formulario textarea, .formulario select");
+
+  campos.forEach(campo => {
+    campo.style.setProperty("background-color", color, "important");
+  });
+
+  document.getElementById("formato")
+    .style.setProperty("background-color", color, "important");
+}
+
+// ────────────────────────────────
+// Validación + envío
+// ────────────────────────────────
+function prepararEnvio() {
+  const form = document.querySelector(".formulario");
+
+  // Validación personalizada visual
+  if (!form.checkValidity()) {
+    mostrarErrores(form);
+    return false;
+  }
+
+  const formatoSelect = document.getElementById("formato");
+  const formatoTexto = formatoSelect.options[formatoSelect.selectedIndex].text;
+  document.getElementById("formatoPedido").value = formatoTexto;
+
+  const idPedido = 'PED-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  document.getElementById("pedidoInput").value = idPedido;
+
+  document.getElementById("fechaPedido").value = new Date().toLocaleString();
+
+  return true;
+}
+
+// ────────────────────────────────
+// Mostrar errores en rojo
+// ────────────────────────────────
+function mostrarErrores(form) {
+  const campos = form.querySelectorAll("input, select");
+
+  campos.forEach(campo => {
+    if (!campo.checkValidity()) {
+      campo.classList.add("error");
+
+      // Mensaje personalizado
+      if (campo.validity.valueMissing) {
+        campo.setCustomValidity("Este campo es obligatorio");
+      } else if (campo.type === "email") {
+        campo.setCustomValidity("Introduzca un email válido");
+      }
+
+      campo.reportValidity();
+    } else {
+      campo.classList.remove("error");
+      campo.setCustomValidity("");
+    }
+  });
+}
+
+// ────────────────────────────────
+// Inicialización
+// ────────────────────────────────
+document.addEventListener("DOMContentLoaded", function() {
+  actualizarCamposEnvio();
+});

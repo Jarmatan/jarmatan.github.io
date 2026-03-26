@@ -66,7 +66,7 @@ function aplicarColorCampos(formato) {
 }
 
 // ────────────────────────────────
-// Preparar el campo oculto con formato y precio
+// Preparar el campo oculto con formato, precio, ID de pedido y fecha
 // ────────────────────────────────
 function prepararEnvio() {
   const formatoSelect = document.getElementById("formato");
@@ -81,6 +81,14 @@ function prepararEnvio() {
   // Guardar el texto visible (incluye precio) en el campo oculto
   const formatoTexto = formatoSelect.options[formatoSelect.selectedIndex].text;
   document.getElementById("formatoPedido").value = formatoTexto;
+
+  // Generar ID de pedido: simple random alfanumérico de 8 caracteres
+  const idPedido = 'PED-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  document.getElementById("pedidoInput").value = idPedido;
+
+  // Generar fecha y hora actual en formato local
+  const fechaHora = new Date().toLocaleString(); 
+  document.getElementById("fechaPedido").value = fechaHora;
 
   return true;
 }

@@ -92,7 +92,7 @@ textarea {
 .boton-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center; /* centrado vertical correcto */
+  align-items: center;
   margin: 1em auto;
   background-color: rgba(200,200,200,0.9);
   border-radius: 14px;
@@ -164,4 +164,31 @@ textarea {
   box-sizing: border-box;
   transition: all 0.15s ease;
   appearance: none;
+}
+
+/* ──────────────────────────────── */
+/* Soporte autofill para mantener colores por formato */
+/* ──────────────────────────────── */
+.formulario.formato-ebook input:-webkit-autofill,
+.formulario.formato-ebook select:-webkit-autofill,
+.formulario.formato-ebook textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #b7e4b7 inset !important;
+  -webkit-text-fill-color: #111 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.formulario.formato-blanda input:-webkit-autofill,
+.formulario.formato-blanda select:-webkit-autofill,
+.formulario.formato-blanda textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #b3c7ff inset !important;
+  -webkit-text-fill-color: #111 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.formulario.formato-dura input:-webkit-autofill,
+.formulario.formato-dura select:-webkit-autofill,
+.formulario.formato-dura textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #ffe599 inset !important;
+  -webkit-text-fill-color: #111 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

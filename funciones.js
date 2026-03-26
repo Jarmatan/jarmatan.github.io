@@ -1,110 +1,101 @@
+// Dirección BCH
 const BCH_ADDRESS = "bitcoincash:qzzvgukpd9f5pas6hvr98vsnpwqnak7rxqt65yuwa5";
 
-/* =========================
-   COPIAR DIRECCIÓN BCH
-========================= */
+// Colores según formato
+const COLORES_FORMATO = {
+  ebook: "#b7e4b7",   // verde
+  blanda: "#b3c7ff",  // azul
+  dura: "#ffe599"     // amarillo
+};
+
+// ────────────────────────────────
+// Copiar dirección BCH con feedback
+// ────────────────────────────────
 function copiarDireccion() {
   const feedback = document.getElementById("feedbackQR");
   const contenedor = document.querySelector(".boton-wrapper");
 
-  if (!feedback || !contenedor) return;
-
+  // Aumenta padding inferior para el rebote
   contenedor.style.paddingBottom = "40px";
   feedback.classList.add("visible");
 
+  // Copia al portapapeles
   navigator.clipboard.writeText(BCH_ADDRESS);
 
   setTimeout(() => {
     feedback.classList.remove("visible");
-    contenedor.style.paddingBottom = "18px";
+    contenedor.style.paddingBottom = "18px"; // vuelve al tamaño original
   }, 2000);
 }
 
-/* =========================
-   COLORES POR FORMATO
-========================= */
-const COLORES_FORMATO = {
-  ebook: "#b7e4b7",
-  blanda: "#b3c7ff",
-  dura: "#ffe599"
-};
-
-/* =========================
-   ACTUALIZAR CAMPOS ENVÍO
-========================= */
+// ────────────────────────────────
+// Mostrar/ocultar dirección y aplicar colores
+// ────────────────────────────────
 function actualizarCamposEnvio() {
-  const formato = document.getElementById("formato")?.value;
+  const formato = document.getElementById("formato").value;
   const envio = document.getElementById("direccionEnvio");
+  const formulario = document.querySelector(".formulario");
 
-  if (!envio) return;
-
+  // Mostrar/ocultar sección de envío
   envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
 
+  // Aplicar colores
   aplicarColorCampos(formato);
+
+  // Cambiar clase del formulario para CSS de autofill
+  formulario.classList.remove("formato-ebook", "formato-blanda", "formato-dura");
+  if (formato in COLORES_FORMATO) {
+    formulario.classList.add("formato-" + formato);
+  }
 }
 
-/* =========================
-   APLICAR COLOR CAMPOS
-========================= */
+// ────────────────────────────────
+// Aplicar colores a todos los campos y al selector
+// ────────────────────────────────
 function aplicarColorCampos(formato) {
   const color = COLORES_FORMATO[formato] || "#ffffff";
 
   const campos = document.querySelectorAll(".formulario input, .formulario textarea, .formulario select");
 
   campos.forEach(campo => {
-    campo.style.backgroundColor = color;
+    campo.style.setProperty("background-color", color, "important");
   });
 
   const selector = document.getElementById("formato");
-  if (selector) selector.style.backgroundColor = color;
+  selector.style.setProperty("background-color", color, "important");
 }
 
-/* =========================
-   EVENTO SEGURO DE ENVÍO (FIX DEFINITIVO)
-========================= */
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector(".formulario");
+// ────────────────────────────────
+// Preparar el campo oculto con formato, precio, ID de pedido y fecha
+// ────────────────────────────────
+function prepararEnvio() {
+  const formatoSelect = document.getElementById("formato");
+  const formato = formatoSelect.value;
 
-  if (!form) return;
+  // Validar que se ha elegido formato
+  if (formato === "") {
+    alert("Por favor, seleccione un formato.");
+    return false;
+  }
 
-  form.addEventListener("submit", function (e) {
+  // Guardar el texto visible (incluye precio) en el campo oculto
+  const formatoTexto = formatoSelect.options[formatoSelect.selectedIndex].text;
+  document.getElementById("formatoPedido").value = formatoTexto;
 
-    e.preventDefault(); // ⛔ detenemos envío automático
+  // Generar ID de pedido: simple random alfanumérico de 8 caracteres
+  const idPedido = 'PED-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  document.getElementById("pedidoInput").value = idPedido;
 
-    const pedidoInput = document.getElementById("pedidoInput");
-    const fechaInput = document.getElementById("fechaPedido");
-    const formatoInput = document.getElementById("formatoPedido");
-    const formatoSelect = document.getElementById("formato");
+  // Generar fecha y hora actual en formato local
+  const fechaHora = new Date().toLocaleString(); 
+  document.getElementById("fechaPedido").value = fechaHora;
 
-    if (!pedidoInput || !fechaInput || !formatoInput || !formatoSelect) {
-      console.error("Error: faltan elementos del formulario");
-      form.submit(); // enviamos igualmente por seguridad
-      return;
-    }
+  return true;
+}
 
-    // ID único
-    const id = "PED-" + Date.now();
-    pedidoInput.value = id;
-
-    // Fecha
-    const fecha = new Date().toLocaleString("es-ES");
-    fechaInput.value = fecha;
-
-    // Formato
-    let textoFormato = "";
-    const formato = formatoSelect.value;
-
-    if (formato === "ebook") textoFormato = "eBook (5€)";
-    if (formato === "blanda") textoFormato = "Tapa blanda (17€)";
-    if (formato === "dura") textoFormato = "Tapa dura (20€)";
-
-    formatoInput.value = textoFormato;
-
-    // DEBUG (puedes borrar luego)
-    console.log("Datos enviados:");
-    console.log(id, fecha, textoFormato);
-
-    // 🚀 Envío manual (CLAVE)
-    form.submit();
-  });
+// ────────────────────────────────
+// Inicialización al cargar la página
+// ────────────────────────────────
+document.addEventListener("DOMContentLoaded", function() {
+  actualizarCamposEnvio(); // ajusta estado y colores según el formato seleccionado al cargar
 });

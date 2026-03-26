@@ -7,19 +7,6 @@
 
 <link rel="stylesheet" href="estilos.css">
 <script src="funciones.js" defer></script>
-
-<style>
-/* Texto del punto 3 sin fondo blanco y alineado */
-.paso3-texto {
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-
-.paso3-texto p {
-  margin: 0;
-}
-</style>
-
 </head>
 
 <body>
@@ -33,7 +20,7 @@
   <select id="formato" name="Formato" onchange="actualizarCamposEnvio()" required>
     <option value="">Seleccione</option>
     <option value="ebook">eBook (5€)</option>
-    <option value="blanda">Tapa blanda (17€)</option>
+    <option value="blanda">Tapa blanda (15€)</option>
     <option value="dura">Tapa dura (20€)</option>
   </select>
 </div>
@@ -50,15 +37,15 @@
   <div id="feedbackQR">✔ Dirección copiada</div>
 </div>
 
+<div class="bloque">
+  <p><strong>3. Rellene el formulario y envíelo</strong></p>
+  <p>Introduzca los datos del formulario para que podamos enviarle el libro, y pulse sobre el botón "Enviar Pedido".</p>
+</div>
+
 <form class="formulario"
       action="https://formsubmit.co/lavenganzademercurio@gmail.com"
       method="POST"
       onsubmit="return prepararEnvio()">
-
-  <!-- TEXTO AJUSTADO -->
-  <div class="paso3-texto">
-    <p><strong>3. Rellene el formulario y envíelo.</strong> Introduzca los datos del formulario para que podamos enviarle el libro, y pulse sobre el botón "Enviar Pedido".</p>
-  </div>
 
   <input type="hidden" name="_subject" value="Pedido - La Venganza de Mercurio">
   <input type="hidden" name="_captcha" value="false">

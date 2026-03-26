@@ -2,50 +2,49 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pedido recibido</title>
 <link rel="stylesheet" href="estilos.css">
+
 <style>
 /* Ajustes específicos para la página de gracias */
-.bloque h2 {
-  font-size: 32px; /* tamaño grande pero responsivo */
+.bloque {
   text-align: center;
+}
+
+.bloque h2 {
+  font-size: 34px;
   margin-bottom: 1em;
 }
 
 .bloque p {
-  font-size: 18px; /* tamaño legible en móvil y ordenador */
+  font-size: 20px;
   line-height: 1.6;
-  margin: 0.5em 0;
-  text-align: center;
+  margin: 0.6em 0;
 }
 
 .bloque a {
   display: inline-block;
   margin-top: 1.5em;
-  padding: 10px 20px;
+  padding: 12px 22px;
   background-color: #b7e4b7;
   color: #111;
   text-decoration: none;
   border-radius: 12px;
   font-weight: bold;
-  transition: background 0.2s ease;
+  font-size: 18px;
 }
 
-.bloque a:hover {
-  background-color: #90c890;
-}
-
-/* Ajuste responsive */
+/* Ajuste específico móvil */
 @media (max-width: 600px) {
   .bloque h2 {
-    font-size: 26px;
+    font-size: 30px;
   }
   .bloque p {
-    font-size: 16px;
+    font-size: 18px;
   }
   .bloque a {
-    font-size: 16px;
-    padding: 8px 16px;
+    font-size: 18px;
   }
 }
 </style>

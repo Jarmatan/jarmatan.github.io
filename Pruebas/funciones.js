@@ -36,8 +36,16 @@ function actualizarCamposEnvio() {
   const envio = document.getElementById("direccionEnvio");
   const formulario = document.querySelector(".formulario");
 
-  // Mostrar/ocultar sección de envío
-  envio.style.display = (formato === "blanda" || formato === "dura") ? "block" : "none";
+  // Mostrar/ocultar sección de envío y ajustar required
+  if (formato === "blanda" || formato === "dura") {
+    envio.style.display = "block";
+    // Campos obligatorios solo para papel
+    envio.querySelectorAll("input").forEach(campo => campo.required = true);
+  } else {
+    envio.style.display = "none";
+    // Quitar required para ebook
+    envio.querySelectorAll("input").forEach(campo => campo.required = false);
+  }
 
   // Aplicar colores
   aplicarColorCampos(formato);

@@ -192,3 +192,30 @@ textarea {
   -webkit-text-fill-color: #111 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* ──────────────────────────────── */
+/* Botón verde estilo 3D reutilizable */
+/* ──────────────────────────────── */
+.boton-verde {
+  display: inline-block;
+  padding: 12px 22px;
+  font-size: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111;
+  background: linear-gradient(to bottom, #c9f7c9, #8fd88f);
+  border-radius: 14px;
+  border: 1px solid #7abf7a;
+  box-shadow:
+    6px 6px 10px rgba(0,0,0,0.45),
+    0 0 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: all 0.15s ease;
+}
+
+.boton-verde:active {
+  transform: translate(4px,4px);
+  box-shadow:
+    2px 2px 4px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
